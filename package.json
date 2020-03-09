@@ -28,14 +28,22 @@
   "scripts": {
     "develop": "tsc -p tsconfig.prod.json --watch",
     "build": "tsc -p tsconfig.prod.json",
-    "lint": "eslint --fix --ext .js,.ts .",
+    "lint": "eslint --fix --ext .js,.ts ./src",
     "test": "jest --passWithNoTests --collectCoverage",
-    "precommit": "lint-staged && jest -o"
+    "pre-commit": "./tools/pre-commit.sh",
+    "pre-push": "./tools/pre-push.sh"
   },
   "lint-staged": {
-    "./**/*.{ts,js}": [
+    "./src/**/*.{ts,js}": [
       "eslint --fix --max-warnings=0"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit",
+      "commit-msg": "node ./tools/commit-msg.js",
+      "pre-push": "npm run pre-push"
+    }
   },
   "dependencies": {},
   "devDependencies": {

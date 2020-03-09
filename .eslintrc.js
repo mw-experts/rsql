@@ -41,6 +41,8 @@ module.exports = {
   ],
   rules: {
     'no-console': 'error',
+    'no-continue': 'off',
     'import/prefer-default-export': 'off',
+    '@typescript-eslint/prefer-string-starts-ends-with': 'off'
   }
 };

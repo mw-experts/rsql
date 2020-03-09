@@ -1,0 +1,61 @@
+{
+  "name": "@mw-experts/rsql",
+  "version": "0.0.1",
+  "description": "Javascript/Typescript library to work with RSQL",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "rsql"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mw-experts/rsql.git"
+  },
+  "author": "Andrey Korovin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mw-experts/rsql/issues"
+  },
+  "homepage": "https://github.com/mw-experts/rsql#readme",
+  "main": "dist/public-api.js",
+  "types": "dist/public-api.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "develop": "tsc -p tsconfig.prod.json --watch",
+    "build": "tsc -p tsconfig.prod.json",
+    "lint": "eslint --fix --ext .js,.ts .",
+    "test": "jest --passWithNoTests --collectCoverage",
+    "precommit": "lint-staged && jest -o"
+  },
+  "lint-staged": {
+    "./**/*.{ts,js}": [
+      "eslint --fix --max-warnings=0"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^6.3.2",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "eslint-plugin-unicorn": "^16.1.1",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3"
+  }
+}

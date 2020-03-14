@@ -7,7 +7,7 @@ import { Token } from './entities/token';
 export class Tokenizer<Type> {
   private extractors: TokenExtractor<Type>[] = [];
 
-  add(extractor: TokenExtractor<Type>): Tokenizer<Type> {
+  add(extractor: TokenExtractor<Type>): this {
     this.extractors.push(extractor);
     return this;
   }
@@ -31,7 +31,7 @@ export class Tokenizer<Type> {
       }
 
       if (!isFoundToken) {
-        throw new TypeError(`Unknown token in string: '${input}' at position ${cursor}`);
+        throw new TypeError(`Unknown token at position ${cursor}: '${input.slice(cursor)}'`);
       }
     }
 

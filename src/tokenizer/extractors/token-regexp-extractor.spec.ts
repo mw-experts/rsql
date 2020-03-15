@@ -21,6 +21,16 @@ describe('TokenRegexpExtractor', () => {
       expect(result).toEqual({ type: 'paren', value: '(' });
     });
 
+    it('should found token when regexp is string', () => {
+      const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('coma', ',');
+      const result = extractor.extract(',', 0);
+      expect(result).toEqual({ type: 'coma', value: ',' });
+    });
+
+    it('should throw error if regexp is empty string', () => {
+      expect(() => new TokenRegexpExtractor<string>('coma', '')).toThrow(Error);
+    });
+
     it('should not found token', () => {
       const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('any', /\s/);
       const result = extractor.extract('string', 0);

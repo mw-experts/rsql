@@ -4,7 +4,7 @@ import { TokenExtractor } from '../entities/token-extractor';
 export class TokenRegexpExtractor<Type> implements TokenExtractor<Type> {
   private regexp: RegExp;
 
-  constructor(private type: Type, regexp: RegExp | string) {
+  constructor(private type: Type, regexp: RegExp | string, private matchIndex = 0) {
     if (!regexp) {
       throw new Error('RegExp should not be empty');
     }
@@ -18,7 +18,7 @@ export class TokenRegexpExtractor<Type> implements TokenExtractor<Type> {
     if (result !== null && result.index === 0) {
       return {
         type: this.type,
-        value: result[0],
+        value: result[this.matchIndex],
       };
     }
 

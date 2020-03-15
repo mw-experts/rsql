@@ -1,9 +1,6 @@
 import { TokenExtractor } from './entities/token-extractor';
 import { Token } from './entities/token';
 
-/**
- * Lexical analysis
- */
 export class Tokenizer<Type> {
   private extractors: TokenExtractor<Type>[] = [];
 

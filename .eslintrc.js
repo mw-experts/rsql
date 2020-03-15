@@ -44,6 +44,7 @@ module.exports = {
     'no-continue': 'off',
     'no-plusplus': 'off',
     'import/prefer-default-export': 'off',
-    '@typescript-eslint/prefer-string-starts-ends-with': 'off'
+    '@typescript-eslint/prefer-string-starts-ends-with': 'off',
+    'sonarjs/no-duplicate-string': 'off'
   }
 };

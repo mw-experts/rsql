@@ -21,7 +21,7 @@ export class Tokenizer<Type> {
 
         if (token !== null) {
           tokens.push(token);
-          cursor += token.value.length;
+          cursor += token.origin.length;
           isFoundToken = true;
           break;
         }

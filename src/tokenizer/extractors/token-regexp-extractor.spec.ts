@@ -21,6 +21,11 @@ describe('TokenRegexpExtractor', () => {
       expect(extractor.extract('1,2,3', 3)).toEqual({ type: 'coma', value: ',' });
     });
 
+    it('should found token group by index', () => {
+      const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('word', /"(\w+)"/, 1);
+      expect(extractor.extract('"vot""tak"', 0)).toEqual({ type: 'word', value: 'vot' });
+    });
+
     it('should throw error if regexp is empty string', () => {
       expect(() => new TokenRegexpExtractor<string>('coma', '')).toThrow(Error);
     });

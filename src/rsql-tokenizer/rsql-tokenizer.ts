@@ -21,33 +21,33 @@ export class RsqlTokenizer {
   }
 
   tokenize(input: string): Token<RsqlTokenType>[] {
-    return this.tokenizer.tokenize(input).filter((token: Token<RsqlTokenType>) => token.type !== RsqlTokenType.Space);
+    return this.tokenizer.tokenize(input);
   }
 
   private static generateTokenizer(): Tokenizer<RsqlTokenType> {
     const tokenizer = new Tokenizer<RsqlTokenType>();
 
     return tokenizer
-      .add(new TokenRegexpExtractor(RsqlTokenType.CompositeOperator, /\sand\s/))
-      .add(new TokenRegexpExtractor(RsqlTokenType.CompositeOperator, /\sor\s/))
-      .add(new TokenRegexpExtractor(RsqlTokenType.String, /"([^!"(),;<=>]+)"/, 1))
-      .add(new TokenRegexpExtractor(RsqlTokenType.String, /'([^!'(),;<=>]+)'/, 1))
-      .add(new TokenRegexpExtractor(RsqlTokenType.String, `[^!"'(),;<=>]+`))
+      .add(new TokenRegexpExtractor(RsqlTokenType.CompositeOperator, /\s(and)\s/, 1))
+      .add(new TokenRegexpExtractor(RsqlTokenType.CompositeOperator, /\s(or)\s/, 1))
+      .add(
+        new TokenRegexpExtractor(
+          RsqlTokenType.String,
+          /"((?:[^!"(),;<=>\\]|\\!|\\"|\\\(|\\\)|\\,|\\;|\\<|\\=|\\>|\\)+)"/,
+          1,
+        ),
+      )
+      .add(
+        new TokenRegexpExtractor(
+          RsqlTokenType.String,
+          /'((?:[^!'(),;<=>\\]|\\!|\\'|\\\(|\\\)|\\,|\\;|\\<|\\=|\\>|\\)+)'/,
+          1,
+        ),
+      )
+      .add(new TokenRegexpExtractor(RsqlTokenType.String, /[^\s!"'(),;<=>\\]+/))
       .add(new TokenRegexpExtractor(RsqlTokenType.Space, /\s+/))
       .add(new TokenRegexpExtractor(RsqlTokenType.Paren, /\(|\)/))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '=='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '!='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '=gt='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '>'))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '=ge='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '>='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '=lt='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '<'))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '=le='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '<='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '=in='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, '=out='))
-      .add(new TokenRegexpExtractor(RsqlTokenType.CompositeOperator, ';'))
-      .add(new TokenRegexpExtractor(RsqlTokenType.CompositeOperator, ','));
+      .add(new TokenRegexpExtractor(RsqlTokenType.BasicOperator, /==|!=|=gt=|>|=ge=|>=|=lt=|<|=le=|<=|=in=|=out=/))
+      .add(new TokenRegexpExtractor(RsqlTokenType.CompositeOperator, /;|,/));
   }
 }

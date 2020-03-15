@@ -43,6 +43,7 @@ module.exports = {
     'no-console': 'error',
     'no-continue': 'off',
     'no-plusplus': 'off',
+    'no-useless-escape': 'off',
     'import/prefer-default-export': 'off',
     '@typescript-eslint/prefer-string-starts-ends-with': 'off',
     'sonarjs/no-duplicate-string': 'off'

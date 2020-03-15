@@ -19,6 +19,7 @@ export class TokenRegexpExtractor<Type> implements TokenExtractor<Type> {
       return {
         type: this.type,
         value: result[this.matchIndex],
+        origin: result[0],
       };
     }
 

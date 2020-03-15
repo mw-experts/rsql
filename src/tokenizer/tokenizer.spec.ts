@@ -22,6 +22,7 @@ describe('Tokenizer', () => {
             return {
               type: 'paren',
               value: char,
+              origin: char,
             };
           }
           return null;
@@ -33,10 +34,12 @@ describe('Tokenizer', () => {
       {
         type: 'paren',
         value: '(',
+        origin: '(',
       },
       {
         type: 'paren',
         value: ')',
+        origin: ')',
       },
     ]);
   });

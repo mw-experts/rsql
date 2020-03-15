@@ -9,7 +9,7 @@ export class TokenRegexpExtractor<Type> implements TokenExtractor<Type> {
       throw new Error('RegExp should not be empty');
     }
 
-    this.regexp = new RegExp(regexp);
+    this.regexp = typeof regexp === 'string' ? new RegExp(regexp) : regexp;
   }
 
   extract(input: string, index: number): Token<Type> | null {

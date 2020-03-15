@@ -122,9 +122,9 @@ describe('RsqlTokenizer', () => {
     ]);
   });
 
-  it('should tokenize rsql filtering spaces', () => {
+  it('should tokenize rsql including spaces', () => {
     const result = unit.tokenize(
-      'genres  =in=  (sci-fi,action) ;  genres  =out= ( romance, animated, horror ) ,  director ==  Que*Tarantino',
+      'genres  =in=  (sci-fi,action) ;  genres  =out= ( romance, animated, horror ) ,  director ==  Que*Tarantino  ',
     );
     expect(result).toEqual([
       {
@@ -133,9 +133,19 @@ describe('RsqlTokenizer', () => {
         origin: 'genres',
       },
       {
+        type: RsqlTokenType.Space,
+        value: '  ',
+        origin: '  ',
+      },
+      {
         type: RsqlTokenType.BasicOperator,
         value: '=in=',
         origin: '=in=',
+      },
+      {
+        type: RsqlTokenType.Space,
+        value: '  ',
+        origin: '  ',
       },
       {
         type: RsqlTokenType.Paren,
@@ -163,15 +173,29 @@ describe('RsqlTokenizer', () => {
         origin: ')',
       },
       {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
+      },
+      {
         type: RsqlTokenType.CompositeOperator,
         value: ';',
         origin: ';',
       },
-
+      {
+        type: RsqlTokenType.Space,
+        value: '  ',
+        origin: '  ',
+      },
       {
         type: RsqlTokenType.String,
         value: 'genres',
         origin: 'genres',
+      },
+      {
+        type: RsqlTokenType.Space,
+        value: '  ',
+        origin: '  ',
       },
       {
         type: RsqlTokenType.BasicOperator,
@@ -179,9 +203,19 @@ describe('RsqlTokenizer', () => {
         origin: '=out=',
       },
       {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
+      },
+      {
         type: RsqlTokenType.Paren,
         value: '(',
         origin: '(',
+      },
+      {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
       },
       {
         type: RsqlTokenType.String,
@@ -194,6 +228,11 @@ describe('RsqlTokenizer', () => {
         origin: ',',
       },
       {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
+      },
+      {
         type: RsqlTokenType.String,
         value: 'animated',
         origin: 'animated',
@@ -204,9 +243,19 @@ describe('RsqlTokenizer', () => {
         origin: ',',
       },
       {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
+      },
+      {
         type: RsqlTokenType.String,
         value: 'horror',
         origin: 'horror',
+      },
+      {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
       },
       {
         type: RsqlTokenType.Paren,
@@ -214,9 +263,19 @@ describe('RsqlTokenizer', () => {
         origin: ')',
       },
       {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
+      },
+      {
         type: RsqlTokenType.CompositeOperator,
         value: ',',
         origin: ',',
+      },
+      {
+        type: RsqlTokenType.Space,
+        value: '  ',
+        origin: '  ',
       },
       {
         type: RsqlTokenType.String,
@@ -224,14 +283,29 @@ describe('RsqlTokenizer', () => {
         origin: 'director',
       },
       {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
+      },
+      {
         type: RsqlTokenType.BasicOperator,
         value: '==',
         origin: '==',
       },
       {
+        type: RsqlTokenType.Space,
+        value: '  ',
+        origin: '  ',
+      },
+      {
         type: RsqlTokenType.String,
         value: 'Que*Tarantino',
         origin: 'Que*Tarantino',
+      },
+      {
+        type: RsqlTokenType.Space,
+        value: '  ',
+        origin: '  ',
       },
     ]);
   });
@@ -318,7 +392,7 @@ describe('RsqlTokenizer', () => {
     ]);
   });
 
-  it('should tokenize string without quotes skipping spaces', () => {
+  it('should tokenize string without quotes including spaces', () => {
     const result = unit.tokenize('name==Andrey;name!= LongName ');
     expect(result).toEqual([
       {
@@ -352,15 +426,25 @@ describe('RsqlTokenizer', () => {
         origin: '!=',
       },
       {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
+      },
+      {
         type: RsqlTokenType.String,
         value: 'LongName',
         origin: 'LongName',
       },
+      {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
+      },
     ]);
   });
 
-  it('should tokenize 1 char string without quotes skipping spaces', () => {
-    const result = unit.tokenize('name==A;name!= L N ');
+  it('should tokenize 1 char string without quotes including spaces', () => {
+    const result = unit.tokenize('name==A;name!=  L ');
     expect(result).toEqual([
       {
         type: RsqlTokenType.String,
@@ -393,9 +477,19 @@ describe('RsqlTokenizer', () => {
         origin: '!=',
       },
       {
+        type: RsqlTokenType.Space,
+        value: '  ',
+        origin: '  ',
+      },
+      {
         type: RsqlTokenType.String,
-        value: 'L N',
-        origin: 'L N',
+        value: 'L',
+        origin: 'L',
+      },
+      {
+        type: RsqlTokenType.Space,
+        value: ' ',
+        origin: ' ',
       },
     ]);
   });
@@ -503,8 +597,7 @@ describe('RsqlTokenizer', () => {
   });
 
   it('should tokenize string with escaped quotes', () => {
-    // eslint-disable-next-line no-useless-escape
-    const result = unit.tokenize(`name=='And\'r\'ey';name!="Long Na\"m\"e"`);
+    const result = unit.tokenize(`'And\'r\'ey'`);
     expect(result).toEqual([
       {
         type: RsqlTokenType.String,
@@ -519,7 +612,6 @@ describe('RsqlTokenizer', () => {
       {
         type: RsqlTokenType.String,
         value: `And'r'ey`,
-        // eslint-disable-next-line no-useless-escape
         origin: `'And\'r\'ey'`,
       },
       {
@@ -540,7 +632,6 @@ describe('RsqlTokenizer', () => {
       {
         type: RsqlTokenType.String,
         value: `Long Na"m"e`,
-        // eslint-disable-next-line no-useless-escape
         origin: `"Long Na\"m\"e"`,
       },
     ]);

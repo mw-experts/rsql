@@ -21,7 +21,14 @@ export class Tokenizer<Type> {
 
         if (token !== null) {
           tokens.push(token);
+
+          if (token.origin.length <= token.charsBack) {
+            throw new Error(`Wrong charsBack value in Token: ${token.origin}`);
+          }
+
           cursor += token.origin.length;
+          cursor -= token.charsBack;
+
           isFoundToken = true;
           break;
         }

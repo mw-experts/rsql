@@ -6,6 +6,7 @@ export class TokenRegexpExtractor<Type> implements TokenExtractor<Type> {
     private type: Type,
     private regexp: RegExp,
     private matchIndex = 0,
+    private charsBack = 0,
     private postProcessValue = (value: string): string => value,
   ) {}
 
@@ -17,6 +18,7 @@ export class TokenRegexpExtractor<Type> implements TokenExtractor<Type> {
         type: this.type,
         value: this.postProcessValue(result[this.matchIndex]),
         origin: result[0],
+        charsBack: this.charsBack,
       };
     }
 

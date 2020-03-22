@@ -1,6 +1,4 @@
 export enum RsqlTokenType {
-  Space = 'SPACE',
-
   CompositeAndOperator = 'COMPOSITE_AND_OPERATOR',
   CompositeOrOperator = 'COMPOSITE_OR_OPERATOR',
 
@@ -18,4 +16,5 @@ export enum RsqlTokenType {
 
   Field = 'FIELD',
   Value = 'VALUE',
+  ValueList = 'VALUE_LIST',
 }

@@ -1,6 +1,6 @@
 export interface Token<Type> {
   type: Type;
-  value: string;
+  value: string | string[];
   origin: string;
   charsBack: number;
 }

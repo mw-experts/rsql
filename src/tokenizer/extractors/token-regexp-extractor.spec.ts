@@ -27,8 +27,13 @@ describe('TokenRegexpExtractor', () => {
     });
 
     it('should set non zero charsBack', () => {
-      const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('coma', /,/, 0, 3);
+      const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('coma', /,/, 0, 0, 3);
       expect(extractor.extract('1,2,3', 1)).toEqual({ type: 'coma', value: ',', origin: ',', charsBack: 3 });
+    });
+
+    it('should set non zero indexBack', () => {
+      const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('coma', /2(,)/, 1, 1);
+      expect(extractor.extract('1,2,3', 3)).toEqual({ type: 'coma', value: ',', origin: '2,', charsBack: 0 });
     });
 
     it('should postprocess value', () => {
@@ -36,6 +41,7 @@ describe('TokenRegexpExtractor', () => {
         'word',
         /"(\w+)"/,
         1,
+        0,
         0,
         (value: string) => `$$$${value}$$$`,
       );

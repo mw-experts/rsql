@@ -1,22 +1,23 @@
 import { Token } from './entities/token';
 import { Tokenizer } from './tokenizer';
 
-type TokenType = 'paren' | 'token2';
-
 describe('Tokenizer', () => {
-  let unit: Tokenizer<TokenType>;
+  let tokenizer: Tokenizer<string>;
 
   beforeEach(() => {
-    unit = new Tokenizer();
+    tokenizer = new Tokenizer();
   });
 
   it('should tokenize', () => {
-    const result: Token<TokenType>[] = unit
+    const nullExtractorSpy1 = jest.fn().mockReturnValue(null);
+    const nullExtractorSpy2 = jest.fn().mockReturnValue(null);
+
+    const result: Token<string>[] = tokenizer
       .add({
-        extract: jest.fn().mockReturnValue(null),
+        extract: nullExtractorSpy1,
       })
       .add({
-        extract: jest.fn((input: string, index: number): Token<TokenType> | null => {
+        extract: (input: string, index: number): Token<string> | null => {
           const char = input[index];
           if (char === '(' || char === ')') {
             return {
@@ -26,7 +27,10 @@ describe('Tokenizer', () => {
             };
           }
           return null;
-        }),
+        },
+      })
+      .add({
+        extract: nullExtractorSpy2,
       })
       .tokenize('()');
 
@@ -42,9 +46,12 @@ describe('Tokenizer', () => {
         origin: ')',
       },
     ]);
+
+    expect(nullExtractorSpy1).toHaveBeenCalledTimes(2);
+    expect(nullExtractorSpy2).toHaveBeenCalledTimes(0);
   });
 
   it('should throw error when token not defined', () => {
-    expect(() => unit.tokenize('()')).toThrow(TypeError);
+    expect(() => tokenizer.tokenize('()')).toThrow(TypeError);
   });
 });

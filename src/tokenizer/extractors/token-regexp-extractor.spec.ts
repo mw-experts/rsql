@@ -15,8 +15,8 @@ describe('TokenRegexpExtractor', () => {
       expect(result).toEqual({ type: 'space', value: '  ', origin: '  ' });
     });
 
-    it('should found token when input starts from middle and is string', () => {
-      const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('coma', ',');
+    it('should found token when input starts from middle', () => {
+      const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('coma', /,/);
       expect(extractor.extract('1,2,3', 1)).toEqual({ type: 'coma', value: ',', origin: ',' });
       expect(extractor.extract('1,2,3', 3)).toEqual({ type: 'coma', value: ',', origin: ',' });
     });
@@ -26,8 +26,14 @@ describe('TokenRegexpExtractor', () => {
       expect(extractor.extract('"vot""tak"', 0)).toEqual({ type: 'word', value: 'vot', origin: '"vot"' });
     });
 
-    it('should throw error if regexp is empty string', () => {
-      expect(() => new TokenRegexpExtractor<string>('coma', '')).toThrow(Error);
+    it('should postprocess value', () => {
+      const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>(
+        'word',
+        /"(\w+)"/,
+        1,
+        (value: string) => `$$$${value}$$$`,
+      );
+      expect(extractor.extract('"vot""tak"', 0)).toEqual({ type: 'word', value: '$$$vot$$$', origin: '"vot"' });
     });
 
     it('should not found token', () => {

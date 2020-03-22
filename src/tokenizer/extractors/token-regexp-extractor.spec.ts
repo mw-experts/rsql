@@ -33,7 +33,7 @@ describe('TokenRegexpExtractor', () => {
 
     it('should set non zero indexBack', () => {
       const extractor: TokenExtractor<string> = new TokenRegexpExtractor<string>('coma', /2(,)/, 1, 1);
-      expect(extractor.extract('1,2,3', 3)).toEqual({ type: 'coma', value: ',', origin: '2,', charsBack: 0 });
+      expect(extractor.extract('1,2,3', 3)).toEqual({ type: 'coma', value: ',', origin: '2,', charsBack: 1 });
     });
 
     it('should postprocess value', () => {

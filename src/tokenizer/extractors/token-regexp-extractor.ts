@@ -19,7 +19,7 @@ export class TokenRegexpExtractor<Type> implements TokenExtractor<Type> {
         type: this.type,
         value: this.postProcessValue(result[this.matchGroup]),
         origin: result[0],
-        charsBack: this.charsBack,
+        charsBack: this.charsBack + this.indexBack,
       };
     }
 

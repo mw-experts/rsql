@@ -8,7 +8,7 @@ export class TokenRegexpExtractor<Type> implements TokenExtractor<Type> {
     private matchGroup = 0,
     private indexBack = 0,
     private charsBack = 0,
-    private postProcessValue = (value: string): string => value,
+    private postProcessValue = (value: string): string | string[] => value,
   ) {}
 
   extract(input: string, index: number): Token<Type> | null {

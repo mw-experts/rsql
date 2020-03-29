@@ -46,6 +46,7 @@ module.exports = {
     'no-useless-escape': 'off',
     'import/prefer-default-export': 'off',
     '@typescript-eslint/prefer-string-starts-ends-with': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
     'sonarjs/no-duplicate-string': 'off'
   }
 };

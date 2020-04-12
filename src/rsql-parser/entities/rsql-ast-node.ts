@@ -1,6 +1,12 @@
 import { RsqlTokenType } from '../../rsql-tokenizer/entities/rsql-token-type';
 import { RsqlAstNodeType } from './rsql-ast-node-type';
 
+export type RsqlAstNode =
+  | RsqlAstRootNode
+  | RsqlAstCompositeExpressionNode
+  | RsqlAstBasicExpressionNode
+  | RsqlAstBasicListExpressionNode;
+
 export interface RsqlAstRootNode {
   type: RsqlAstNodeType.Root;
   value: RsqlAstCompositeExpressionNode | RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode;

@@ -44,6 +44,7 @@ module.exports = {
     'no-continue': 'off',
     'no-plusplus': 'off',
     'no-useless-escape': 'off',
+    'class-methods-use-this': 'off',
     'import/prefer-default-export': 'off',
     '@typescript-eslint/prefer-string-starts-ends-with': 'off',
     '@typescript-eslint/no-empty-function': 'off',

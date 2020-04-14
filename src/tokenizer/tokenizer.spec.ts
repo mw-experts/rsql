@@ -9,6 +9,8 @@ describe('Tokenizer', () => {
   });
 
   it('should tokenize', () => {
+    expect.hasAssertions();
+
     const nullExtractorSpy1 = jest.fn().mockReturnValue(null);
     const nullExtractorSpy2 = jest.fn().mockReturnValue(null);
 
@@ -63,7 +65,7 @@ describe('Tokenizer', () => {
       })
       .tokenize('();');
 
-    expect(result).toEqual([
+    expect(result).toStrictEqual([
       {
         type: 'paren',
         value: '(',
@@ -89,6 +91,8 @@ describe('Tokenizer', () => {
   });
 
   it('should throw error on bad token properties', () => {
+    expect.hasAssertions();
+
     const tok: Tokenizer<string> = tokenizer.add({
       extract: (input: string, index: number): Token<string> | null => {
         const char = input[index] + input[index + 1];
@@ -108,6 +112,8 @@ describe('Tokenizer', () => {
   });
 
   it('should throw error when token not defined', () => {
+    expect.hasAssertions();
+
     expect(() => tokenizer.tokenize('()')).toThrow(TypeError);
   });
 });

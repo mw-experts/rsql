@@ -6,10 +6,12 @@ describe('RsqlParser', () => {
   const parser = RsqlParser.getInstance();
 
   it('should tokenize', () => {
+    expect.hasAssertions();
+
     const tokens = tokenizer.tokenize('((a==1) and c==3 and (b==2 or b==3))');
     const ast = parser.parse(tokens);
 
-    expect(ast).toEqual({
+    expect(ast).toStrictEqual({
       type: 'ROOT',
       value: {
         operator: 'COMPOSITE_AND_OPERATOR',

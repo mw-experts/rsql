@@ -38,7 +38,11 @@ export class RsqlParser {
   ): RsqlAstCompositeExpressionNode | RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode {
     if (
       !input.some((token: Token<RsqlTokenType>) => {
-        return [RsqlTokenType.ParenLeft, RsqlTokenType.ParenRight, ...this.compositeOperatorTypes].includes(token.type);
+        return [
+          RsqlTokenType.ParenLeft,
+          RsqlTokenType.ParenRight,
+          ...this.compositeOperatorTypes,
+        ].includes(token.type);
       }) &&
       input.length === 3
     ) {
@@ -77,7 +81,10 @@ export class RsqlParser {
       leftTokens.push(input[i]);
     }
 
-    if (input[0].type === RsqlTokenType.ParenLeft && input[input.length - 1].type === RsqlTokenType.ParenRight) {
+    if (
+      input[0].type === RsqlTokenType.ParenLeft &&
+      input[input.length - 1].type === RsqlTokenType.ParenRight
+    ) {
       return this.parseRecursive(input.slice(1, -1));
     }
 

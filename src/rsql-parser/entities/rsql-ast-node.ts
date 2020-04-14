@@ -9,13 +9,18 @@ export type RsqlAstNode =
 
 export interface RsqlAstRootNode {
   type: RsqlAstNodeType.Root;
-  value: RsqlAstCompositeExpressionNode | RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode;
+  value:
+    | RsqlAstCompositeExpressionNode
+    | RsqlAstBasicExpressionNode
+    | RsqlAstBasicListExpressionNode;
 }
 
 export interface RsqlAstCompositeExpressionNode {
   type: RsqlAstNodeType.CompositeExpression;
   operator: RsqlTokenType.CompositeAndOperator | RsqlTokenType.CompositeOrOperator;
-  value: Array<RsqlAstCompositeExpressionNode | RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode>;
+  value: Array<
+    RsqlAstCompositeExpressionNode | RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode
+  >;
 }
 
 export interface RsqlAstBasicExpressionNode {

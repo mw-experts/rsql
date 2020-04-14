@@ -14,6 +14,8 @@ describe('RsqlFilter', () => {
       { name: 'Alina', age: 22 },
     ];
 
-    expect(filter.filter('(name==Anna,name==Alina);age>20', data)).toEqual([{ age: 22, name: 'Alina' }]);
+    expect(filter.filter('(name==Anna,name==Alina);age>20', data)).toEqual([
+      { age: 22, name: 'Alina' },
+    ]);
   });
 });

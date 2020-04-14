@@ -45,8 +45,12 @@ export class RsqlFilter {
         return this.evalCompositeExpression(
           node.operator,
           node.value.map(
-            (item: RsqlAstCompositeExpressionNode | RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode) =>
-              this.traverse<T>(item, listItem),
+            (
+              item:
+                | RsqlAstCompositeExpressionNode
+                | RsqlAstBasicExpressionNode
+                | RsqlAstBasicListExpressionNode,
+            ) => this.traverse<T>(item, listItem),
           ),
         );
       case RsqlAstNodeType.BasicExpression:
@@ -86,13 +90,21 @@ export class RsqlFilter {
       case RsqlTokenType.BasicNotEqualOperator:
         return node.value !== stringData;
       case RsqlTokenType.BasicGreaterOperator:
-        return Number.isNaN(numberData) || Number.isNaN(numberValue) ? false : numberData > numberValue;
+        return Number.isNaN(numberData) || Number.isNaN(numberValue)
+          ? false
+          : numberData > numberValue;
       case RsqlTokenType.BasicGreaterOrEqualOperator:
-        return Number.isNaN(numberData) || Number.isNaN(numberValue) ? false : numberData >= numberValue;
+        return Number.isNaN(numberData) || Number.isNaN(numberValue)
+          ? false
+          : numberData >= numberValue;
       case RsqlTokenType.BasicLessOperator:
-        return Number.isNaN(numberData) || Number.isNaN(numberValue) ? false : numberData < numberValue;
+        return Number.isNaN(numberData) || Number.isNaN(numberValue)
+          ? false
+          : numberData < numberValue;
       case RsqlTokenType.BasicLessOrEqualOperator:
-        return Number.isNaN(numberData) || Number.isNaN(numberValue) ? false : numberData <= numberValue;
+        return Number.isNaN(numberData) || Number.isNaN(numberValue)
+          ? false
+          : numberData <= numberValue;
       case RsqlTokenType.BasicInOperator:
         return node.value.includes(stringData);
       case RsqlTokenType.BasicNotInOperator:

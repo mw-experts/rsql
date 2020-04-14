@@ -8,13 +8,15 @@ describe('RsqlFilter', () => {
   });
 
   it('should filter array', () => {
+    expect.hasAssertions();
+
     const data = [
       { name: 'Andrey', age: 30 },
       { name: 'Anna', age: 18 },
       { name: 'Alina', age: 22 },
     ];
 
-    expect(filter.filter('(name==Anna,name==Alina);age>20', data)).toEqual([
+    expect(filter.filter('(name==Anna,name==Alina);age>20', data)).toStrictEqual([
       { age: 22, name: 'Alina' },
     ]);
   });

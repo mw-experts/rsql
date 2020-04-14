@@ -19,6 +19,7 @@ export class RsqlParser {
     return this.instance;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   private readonly compositeOperatorTypes: RsqlTokenType[] = [
@@ -37,13 +38,13 @@ export class RsqlParser {
     input: Token<RsqlTokenType>[],
   ): RsqlAstCompositeExpressionNode | RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode {
     if (
-      !input.some((token: Token<RsqlTokenType>) => {
-        return [
+      !input.some((token: Token<RsqlTokenType>) =>
+        [
           RsqlTokenType.ParenLeft,
           RsqlTokenType.ParenRight,
           ...this.compositeOperatorTypes,
-        ].includes(token.type);
-      }) &&
+        ].includes(token.type),
+      ) &&
       input.length === 3
     ) {
       return {
@@ -88,6 +89,6 @@ export class RsqlParser {
       return this.parseRecursive(input.slice(1, -1));
     }
 
-    throw new TypeError(`RSQL parsing error`);
+    throw new TypeError('RSQL parsing error');
   }
 }

@@ -1,4 +1,3 @@
-#!/bin/sh
+#!/bin/bash
 
 npx lint-staged || exit
-npx jest -o || exit

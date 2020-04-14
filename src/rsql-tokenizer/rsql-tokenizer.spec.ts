@@ -8,37 +8,127 @@ describe('RsqlTokenizer', () => {
   });
 
   it('should tokenize Field', () => {
-    expect(unit.tokenize('age==')[0]).toEqual({ charsBack: 2, origin: 'age==', type: 'FIELD', value: 'age' });
-    expect(unit.tokenize('age!=')[0]).toEqual({ charsBack: 2, origin: 'age!=', type: 'FIELD', value: 'age' });
-    expect(unit.tokenize('age>=')[0]).toEqual({ charsBack: 2, origin: 'age>=', type: 'FIELD', value: 'age' });
-    expect(unit.tokenize('age<=')[0]).toEqual({ charsBack: 2, origin: 'age<=', type: 'FIELD', value: 'age' });
+    expect(unit.tokenize('age==')[0]).toEqual({
+      charsBack: 2,
+      origin: 'age==',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age!=')[0]).toEqual({
+      charsBack: 2,
+      origin: 'age!=',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age>=')[0]).toEqual({
+      charsBack: 2,
+      origin: 'age>=',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age<=')[0]).toEqual({
+      charsBack: 2,
+      origin: 'age<=',
+      type: 'FIELD',
+      value: 'age',
+    });
 
-    expect(unit.tokenize('age=gt=')[0]).toEqual({ charsBack: 4, origin: 'age=gt=', type: 'FIELD', value: 'age' });
-    expect(unit.tokenize('age=ge=')[0]).toEqual({ charsBack: 4, origin: 'age=ge=', type: 'FIELD', value: 'age' });
-    expect(unit.tokenize('age=lt=')[0]).toEqual({ charsBack: 4, origin: 'age=lt=', type: 'FIELD', value: 'age' });
-    expect(unit.tokenize('age=le=')[0]).toEqual({ charsBack: 4, origin: 'age=le=', type: 'FIELD', value: 'age' });
-    expect(unit.tokenize('age=in=')[0]).toEqual({ charsBack: 4, origin: 'age=in=', type: 'FIELD', value: 'age' });
+    expect(unit.tokenize('age=gt=')[0]).toEqual({
+      charsBack: 4,
+      origin: 'age=gt=',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age=ge=')[0]).toEqual({
+      charsBack: 4,
+      origin: 'age=ge=',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age=lt=')[0]).toEqual({
+      charsBack: 4,
+      origin: 'age=lt=',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age=le=')[0]).toEqual({
+      charsBack: 4,
+      origin: 'age=le=',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age=in=')[0]).toEqual({
+      charsBack: 4,
+      origin: 'age=in=',
+      type: 'FIELD',
+      value: 'age',
+    });
 
-    expect(unit.tokenize('age=out=')[0]).toEqual({ charsBack: 5, origin: 'age=out=', type: 'FIELD', value: 'age' });
+    expect(unit.tokenize('age=out=')[0]).toEqual({
+      charsBack: 5,
+      origin: 'age=out=',
+      type: 'FIELD',
+      value: 'age',
+    });
 
-    expect(unit.tokenize('age>')[0]).toEqual({ charsBack: 1, origin: 'age>', type: 'FIELD', value: 'age' });
-    expect(unit.tokenize('age<')[0]).toEqual({ charsBack: 1, origin: 'age<', type: 'FIELD', value: 'age' });
+    expect(unit.tokenize('age>')[0]).toEqual({
+      charsBack: 1,
+      origin: 'age>',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age<')[0]).toEqual({
+      charsBack: 1,
+      origin: 'age<',
+      type: 'FIELD',
+      value: 'age',
+    });
   });
 
   it('should tokenize Value in double quotes', () => {
-    expect(unit.tokenize('age=="1"')[2]).toEqual({ charsBack: 2, origin: '=="1"', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age!="1 2"')[2]).toEqual({ charsBack: 2, origin: '!="1 2"', type: 'VALUE', value: '1 2' });
-    expect(unit.tokenize('age>="1*"')[2]).toEqual({ charsBack: 2, origin: '>="1*"', type: 'VALUE', value: '1*' });
-    expect(unit.tokenize(`age<="1'2"`)[2]).toEqual({ charsBack: 2, origin: `<="1'2"`, type: 'VALUE', value: `1'2` });
+    expect(unit.tokenize('age=="1"')[2]).toEqual({
+      charsBack: 2,
+      origin: '=="1"',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age!="1 2"')[2]).toEqual({
+      charsBack: 2,
+      origin: '!="1 2"',
+      type: 'VALUE',
+      value: '1 2',
+    });
+    expect(unit.tokenize('age>="1*"')[2]).toEqual({
+      charsBack: 2,
+      origin: '>="1*"',
+      type: 'VALUE',
+      value: '1*',
+    });
+    expect(unit.tokenize(`age<="1'2"`)[2]).toEqual({
+      charsBack: 2,
+      origin: `<="1'2"`,
+      type: 'VALUE',
+      value: `1'2`,
+    });
 
-    expect(unit.tokenize('age=gt="1"')[2]).toEqual({ charsBack: 4, origin: '=gt="1"', type: 'VALUE', value: '1' });
+    expect(unit.tokenize('age=gt="1"')[2]).toEqual({
+      charsBack: 4,
+      origin: '=gt="1"',
+      type: 'VALUE',
+      value: '1',
+    });
     expect(unit.tokenize('age=ge="1 2"')[2]).toEqual({
       charsBack: 4,
       origin: '=ge="1 2"',
       type: 'VALUE',
       value: '1 2',
     });
-    expect(unit.tokenize('age=lt="1*"')[2]).toEqual({ charsBack: 4, origin: '=lt="1*"', type: 'VALUE', value: '1*' });
+    expect(unit.tokenize('age=lt="1*"')[2]).toEqual({
+      charsBack: 4,
+      origin: '=lt="1*"',
+      type: 'VALUE',
+      value: '1*',
+    });
     expect(unit.tokenize(`age=le="1'2"`)[2]).toEqual({
       charsBack: 4,
       origin: `=le="1'2"`,
@@ -46,24 +136,64 @@ describe('RsqlTokenizer', () => {
       value: `1'2`,
     });
 
-    expect(unit.tokenize('age<"1"')[2]).toEqual({ charsBack: 1, origin: '<"1"', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age>"1"')[2]).toEqual({ charsBack: 1, origin: '>"1"', type: 'VALUE', value: '1' });
+    expect(unit.tokenize('age<"1"')[2]).toEqual({
+      charsBack: 1,
+      origin: '<"1"',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age>"1"')[2]).toEqual({
+      charsBack: 1,
+      origin: '>"1"',
+      type: 'VALUE',
+      value: '1',
+    });
   });
 
   it('should tokenize Value in single quotes', () => {
-    expect(unit.tokenize("age=='1'")[2]).toEqual({ charsBack: 2, origin: "=='1'", type: 'VALUE', value: '1' });
-    expect(unit.tokenize("age!='1 2'")[2]).toEqual({ charsBack: 2, origin: "!='1 2'", type: 'VALUE', value: '1 2' });
-    expect(unit.tokenize("age>='1*'")[2]).toEqual({ charsBack: 2, origin: ">='1*'", type: 'VALUE', value: '1*' });
-    expect(unit.tokenize(`age<='1"2'`)[2]).toEqual({ charsBack: 2, origin: `<='1"2'`, type: 'VALUE', value: `1"2` });
+    expect(unit.tokenize("age=='1'")[2]).toEqual({
+      charsBack: 2,
+      origin: "=='1'",
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize("age!='1 2'")[2]).toEqual({
+      charsBack: 2,
+      origin: "!='1 2'",
+      type: 'VALUE',
+      value: '1 2',
+    });
+    expect(unit.tokenize("age>='1*'")[2]).toEqual({
+      charsBack: 2,
+      origin: ">='1*'",
+      type: 'VALUE',
+      value: '1*',
+    });
+    expect(unit.tokenize(`age<='1"2'`)[2]).toEqual({
+      charsBack: 2,
+      origin: `<='1"2'`,
+      type: 'VALUE',
+      value: `1"2`,
+    });
 
-    expect(unit.tokenize("age=gt='1'")[2]).toEqual({ charsBack: 4, origin: "=gt='1'", type: 'VALUE', value: '1' });
+    expect(unit.tokenize("age=gt='1'")[2]).toEqual({
+      charsBack: 4,
+      origin: "=gt='1'",
+      type: 'VALUE',
+      value: '1',
+    });
     expect(unit.tokenize("age=ge='1 2'")[2]).toEqual({
       charsBack: 4,
       origin: "=ge='1 2'",
       type: 'VALUE',
       value: '1 2',
     });
-    expect(unit.tokenize("age=lt='1*'")[2]).toEqual({ charsBack: 4, origin: "=lt='1*'", type: 'VALUE', value: '1*' });
+    expect(unit.tokenize("age=lt='1*'")[2]).toEqual({
+      charsBack: 4,
+      origin: "=lt='1*'",
+      type: 'VALUE',
+      value: '1*',
+    });
     expect(unit.tokenize(`age=le='1"2'`)[2]).toEqual({
       charsBack: 4,
       origin: `=le='1"2'`,
@@ -71,23 +201,83 @@ describe('RsqlTokenizer', () => {
       value: `1"2`,
     });
 
-    expect(unit.tokenize("age>'1'")[2]).toEqual({ charsBack: 1, origin: ">'1'", type: 'VALUE', value: '1' });
-    expect(unit.tokenize("age<'1'")[2]).toEqual({ charsBack: 1, origin: "<'1'", type: 'VALUE', value: '1' });
+    expect(unit.tokenize("age>'1'")[2]).toEqual({
+      charsBack: 1,
+      origin: ">'1'",
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize("age<'1'")[2]).toEqual({
+      charsBack: 1,
+      origin: "<'1'",
+      type: 'VALUE',
+      value: '1',
+    });
   });
 
   it('should tokenize Value no quotes', () => {
-    expect(unit.tokenize('age==1')[2]).toEqual({ charsBack: 2, origin: '==1', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age!=1')[2]).toEqual({ charsBack: 2, origin: '!=1', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age>=1')[2]).toEqual({ charsBack: 2, origin: '>=1', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age<=1')[2]).toEqual({ charsBack: 2, origin: '<=1', type: 'VALUE', value: '1' });
+    expect(unit.tokenize('age==1')[2]).toEqual({
+      charsBack: 2,
+      origin: '==1',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age!=1')[2]).toEqual({
+      charsBack: 2,
+      origin: '!=1',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age>=1')[2]).toEqual({
+      charsBack: 2,
+      origin: '>=1',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age<=1')[2]).toEqual({
+      charsBack: 2,
+      origin: '<=1',
+      type: 'VALUE',
+      value: '1',
+    });
 
-    expect(unit.tokenize('age=gt=1')[2]).toEqual({ charsBack: 4, origin: '=gt=1', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age=ge=1')[2]).toEqual({ charsBack: 4, origin: '=ge=1', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age=lt=1')[2]).toEqual({ charsBack: 4, origin: '=lt=1', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age=le=1')[2]).toEqual({ charsBack: 4, origin: '=le=1', type: 'VALUE', value: '1' });
+    expect(unit.tokenize('age=gt=1')[2]).toEqual({
+      charsBack: 4,
+      origin: '=gt=1',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age=ge=1')[2]).toEqual({
+      charsBack: 4,
+      origin: '=ge=1',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age=lt=1')[2]).toEqual({
+      charsBack: 4,
+      origin: '=lt=1',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age=le=1')[2]).toEqual({
+      charsBack: 4,
+      origin: '=le=1',
+      type: 'VALUE',
+      value: '1',
+    });
 
-    expect(unit.tokenize('age<1')[2]).toEqual({ charsBack: 1, origin: '<1', type: 'VALUE', value: '1' });
-    expect(unit.tokenize('age>1')[2]).toEqual({ charsBack: 1, origin: '>1', type: 'VALUE', value: '1' });
+    expect(unit.tokenize('age<1')[2]).toEqual({
+      charsBack: 1,
+      origin: '<1',
+      type: 'VALUE',
+      value: '1',
+    });
+    expect(unit.tokenize('age>1')[2]).toEqual({
+      charsBack: 1,
+      origin: '>1',
+      type: 'VALUE',
+      value: '1',
+    });
   });
 
   it('should tokenize lists', () => {
@@ -208,7 +398,12 @@ describe('RsqlTokenizer', () => {
       type: 'BASIC_LESS_OPERATOR',
       value: '=lt=',
     });
-    expect(unit.tokenize('age<5')[1]).toEqual({ charsBack: 0, origin: '<', type: 'BASIC_LESS_OPERATOR', value: '<' });
+    expect(unit.tokenize('age<5')[1]).toEqual({
+      charsBack: 0,
+      origin: '<',
+      type: 'BASIC_LESS_OPERATOR',
+      value: '<',
+    });
     expect(unit.tokenize('age=le=5')[1]).toEqual({
       charsBack: 0,
       origin: '=le=',

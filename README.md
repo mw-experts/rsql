@@ -24,6 +24,12 @@ To use library as standalone script in a browser, add `node_modules/@mw-experts/
 <script src="../node_modules/@mw-experts/rsql/dist/rsql-browser.js"></script>
 ```
 
+To use library with nodejs import it like this:
+
+```
+const rsql = require('@mw-experts/rsql');
+```
+
 ### Filter array of objects
 
 ```
@@ -33,11 +39,11 @@ const data = [
   { name: 'Matrix', year: 2000 },
 ];
 
-const rsql = 'name=="Kill Bill",year=ge=2000';
+const rsqlStr = 'name=="Kill Bill",year=ge=2000';
 let result = [];
 
 try {
-  result = RsqlFilter.getInstance().filter(rsql, data);
+  result = rsql.RsqlFilter.getInstance().filter(rsqlStr, data);
 } catch (e) {
   console.warn(e);
 }

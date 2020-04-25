@@ -3,7 +3,8 @@ const fs = require('fs');
 const message = fs.readFileSync(process.env.HUSKY_GIT_PARAMS, 'utf-8');
 
 if (
-  !/^(?:build|ci|docs|feat|fix|perf|refactor|style|test)\([a-z0-9-]{3,}\):\s#\d+\s.{10,}/.test(message)
+  !/^(?:build|ci|docs|feat|fix|perf|refactor|style|test)\([a-z0-9-]{3,}\):\s#\d+\s.{10,}/.test(message) &&
+  !/^publish v\.\d+\.\d+\.\d+/.test(message)
 ) {
   console.log(`
     Commit message should follow the pattern:
@@ -33,8 +34,6 @@ if (
 }
 
 
-
-
 const { execSync } = require('child_process');
 
 function getCurrentBranch() {
@@ -47,18 +46,17 @@ function getCurrentBranch() {
 }
 
 if (
-  !/^[a-z0-9-]{3,}\/#\d+\/[a-z0-9-]{3,}/.test(getCurrentBranch())
+  !/^#\d+\/[a-z0-9-]{3,}/.test(getCurrentBranch())
 ) {
   console.log(`
     Branch name should follow the pattern:
-    <SCOPE>/#<ISSUE>/<SUBJECT>
+    #<ISSUE>/<SUBJECT>
 
     Where is:
-    SCOPE - scope [a-z0-9-] at least 3 characters
     ISSUE - issue number
     SUBJECT - [a-z0-9-] at least 3 characters
 
-    Example: cart-page/#77/some-feature-implementation
+    Example: #77/some-feature-implementation
   `);
 
   process.exit(1);

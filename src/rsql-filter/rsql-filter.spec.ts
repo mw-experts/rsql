@@ -16,8 +16,23 @@ describe('RsqlFilter', () => {
       { name: 'Alina', age: 22 },
     ];
 
-    expect(filter.filter('(name==Anna,name==Alina);age>20', data)).toStrictEqual([
+    expect(filter.filter('age>20;(name==Anna,name==Alina)', data)).toStrictEqual([
       { age: 22, name: 'Alina' },
+    ]);
+  });
+
+  it('should filter array using nested field', () => {
+    expect.hasAssertions();
+
+    const data = [
+      { deep: { nested: { field: 555 } } },
+      { deep: { nested: { field: 777 } } },
+      { deep: {} },
+      { deep: { nested: { field: 666 } } },
+    ];
+
+    expect(filter.filter('deep.nested.field==777', data)).toStrictEqual([
+      { deep: { nested: { field: 777 } } },
     ]);
   });
 });

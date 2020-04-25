@@ -21,6 +21,7 @@ module.exports = {
     "function-paren-newline": "off",
     "no-plusplus": "off",
     "no-continue": "off",
+    "no-confusing-arrow": "off",
     "jest/lowercase-name": "off",
     "jest/no-hooks": "off",
   },

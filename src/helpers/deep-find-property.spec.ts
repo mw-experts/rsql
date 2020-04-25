@@ -29,6 +29,7 @@ describe('deepFindProperty', () => {
   it('should return null if value not exist', () => {
     expect.hasAssertions();
     expect(deepFindProperty(obj, 'a.b.d')).toBeNull();
+    expect(deepFindProperty(obj, 'a.b.d.g')).toBeNull();
   });
 
   it('should return correct result if value is falsy', () => {

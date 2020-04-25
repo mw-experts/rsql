@@ -1,3 +1,4 @@
+import { deepFindProperty } from '../helpers/deep-find-property';
 import {
   RsqlAstBasicExpressionNode,
   RsqlAstBasicListExpressionNode,
@@ -76,11 +77,10 @@ export class RsqlFilter {
 
   private evalBasicExpression(
     node: RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listItem: any,
   ): boolean {
-    const data = listItem[node.field];
-    const stringData = data?.toString();
+    const data = deepFindProperty<any>(listItem, node.field);
+    const stringData = `${data}`;
     const numberData = Number(data);
     const numberValue = Number(node.value);
 

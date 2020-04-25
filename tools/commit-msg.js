@@ -29,7 +29,7 @@ if (
     test: Adding missing tests or correcting existing tests
   `);
 
-  process.exit(1);
+  // process.exit(1);
 }
 
 
@@ -61,5 +61,5 @@ if (
     Example: cart-page/#77/some-feature-implementation
   `);
 
-  process.exit(1);
+  // process.exit(1);
 }

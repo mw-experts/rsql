@@ -1,6 +1,6 @@
 {
   "name": "@mw-experts/rsql",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Complete and thoroughly tested parser for RSQL/FIQL written in Typescript(Javascript). Tool for filtering array of objects using RSQL/FIQL. Built with zero dependencies.",
   "keywords": [
     "javascript",

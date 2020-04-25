@@ -1,0 +1,48 @@
+name: Validate
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prettier
+        run: npm run prettier-ci
+
+      - name: Lint
+        run: npm run lint-ci
+
+      - name: Test
+        run: npm run test-ci
+
+      - name: Build
+        run: |
+          npm run build-commonjs
+          npm run build-browser

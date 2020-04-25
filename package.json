@@ -20,8 +20,8 @@
     "url": "https://github.com/mw-experts/rsql/issues"
   },
   "homepage": "https://github.com/mw-experts/rsql#readme",
-  "main": "dist/public-api.js",
-  "types": "dist/public-api.d.ts",
+  "main": "dist/rsql/public-api.js",
+  "types": "dist/rsql/public-api.d.ts",
   "files": [
     "dist"
   ],
@@ -29,8 +29,9 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "build": "rm -rf dist && parcel build -o rsql.js src/public-api.ts",
-    "prepublish": "npm version patch",
+    "build-for-server": "tsc -p tsconfig.prod.json",
+    "build-for-browser": "parcel build -o rsql.js src/public-api.ts",
+    "prepublishOnly": "rm -rf dist && npm version patch && npm run build-for-server && npm run build-for-browser",
     "publish": "npm publish --access=public",
     "lint": "eslint src --ext .js,.ts --fix --max-warnings=0",
     "lint-ci": "eslint src --ext .js,.ts --max-warnings=0",

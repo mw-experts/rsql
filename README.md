@@ -78,24 +78,28 @@ makes it a good candidate for becoming a generic query language for searching RE
 
 For example, you can query your resource like this:
 
-`/movies?query=name=="Kill Bill";year=gt=2003`
+`/movies?search=name=="Kill Bill";year=gt=2003`
 
 or
 
-`/movies?query=director.lastName==Nolan and year>=2000`.
+`/movies?search=director.lastName==Nolan and year>=2000`.
 
 RSQL introduces simple and composite operators which can be used to build basic and complex queries.
 
-The following table lists basic operators:
+### Basic operators:
 
 | Basic Operator | Description         |
 |----------------|---------------------|
 | ==             | Equal To            |
 | !=             | Not Equal To        |
 | =gt=           | Greater Than        |
+| >              | Greater Than        |
 | =ge=           | Greater Or Equal To |
+| >=             | Greater Or Equal To |
 | =lt=           | Less Than           |
+| <              | Less Than           |
 | =le=           | Less Or Equal To    |
+| <=             | Less Or Equal To    |
 | =in=           | In                  |
 | =out=          | Not in              |
 
@@ -104,13 +108,17 @@ These operators can be used to do all sort of simple queries, for example:
 * name==Fero: find all people whose name is Fero
 * street!=Darna: find all people who do not live at Darna
 * age=gt=10: find all people older than 10 (exclusive)
+* age>10: find all people older than 10 (exclusive)
 * age=ge=10: find all people older than 10 (inclusive)
+* age>=10: find all people older than 10 (inclusive)
 * house=lt=3: find all people who have less than 3 houses
+* house<3: find all people who have less than 3 houses
 * house=le=3: find all people who have less than or 3 houses
-* genres=in=(sci-fi,action)
-* genres=out=(sci-fi,action)
+* house<=3: find all people who have less than or 3 houses
+* name=in=(Fero,Jane) find all people whose name is Fero or Jane
+* name=out=(Alex,Mike) find all people whose name is not Alex or Mike
 
-The following tables lists two joining operators:
+### Composite operators:
 
 | Composite Operator   | Description         |
 |----------------------|---------------------|
@@ -119,30 +127,61 @@ The following tables lists two joining operators:
 | ,                    | Logical OR          |
 | or                   | Logical OR          |
 
-These two operators can be used to join the simple queries and build more involved queries which can be as complex as required.
+These operators can be used to join the simple queries and build more involved queries which can be as complex as required.
 Here are some examples:
 
 * age=gt=10;age=lt=20: find all people older than 10 and younger than 20
+* age=gt=10 and age=lt=20: find all people older than 10 and younger than 20
 * age=lt=5,age=gt=30: find all people younger than 5 or older than 30
-* age=gt=10;age=lt=20;(str=Fero,str=Hero): find all people older than 10 and younger than 20 and living either at Fero or Hero.
+* age<5 or age>30: find all people younger than 5 or older than 30
+* age=gt=10;age=lt=20;name=in=(Fero,Jane): find all people older than 10 and younger than 20 with names either Fero or Jane.
 
-Note that while the complexity of the queries can grow, the complete expression still remains in a form which is easy to understand and quite compact.
+### Fields and Values
+
+#### Fields can only consist of next regexp symbols: **[\w-.]** (A-Za-z0-9_-.)
+
+* field.name==value
+* field-name==value
+* field_name==value
+* FieldName==value
+* FIELD_NAME_777==value
+
+You can ask for deep nested properties using . separator:
+
+```
+const data = [
+    {
+        deep: {
+            nested: {
+                field: 777
+            }
+        }
+    }
+]
+
+const rsql = 'deep.nested.field==777';
+```
+
+#### Values can only consist of next regexp symbols: **[\w-.*]** (A-Za-z0-9_-.*)
+
+* field==VERY_strange-777-value.*
+
+If you need to use space wrap value in ' or "
+
+* field=='value with spaces'
+* field=="value with spaces"
+
+If you need to use ' or ":
+
+* field=="Mike's car"
+* field=='Symbol " is used here'
+
+### Ordering
 
 By default, operators evaluated from left to right.
 However, a parenthesized expression can be used to change the precedence.
 
-### Examples
-
-Examples of RSQL expressions in both FIQL-like and alternative notation:
-
-- name=="Kill Bill";year=gt=2003
-- name=="Kill Bill" and year>2003
-- genres=in=(sci-fi,action);(director=='Christopher Nolan',actor==*Bale);year=ge=2000
-- genres=in=(sci-fi,action) and (director=='Christopher Nolan' or actor==*Bale) and year>=2000
-- director.lastName==Nolan;year=ge=2000;year=lt=2010
-- director.lastName==Nolan and year>=2000 and year<2010
-- genres=in=(sci-fi,action);genres=out=(romance,animated,horror),director==Que*Tarantino
-- genres=in=(sci-fi,action) and genres=out=(romance,animated,horror) or director==Que*Tarantino`
+* age=lt=20;(name==Fero,name==Jane): find all people younger than 20 with names either Fero or Jane.
 
 ## Authors
 

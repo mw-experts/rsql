@@ -18,10 +18,10 @@ yarn add @mw-experts/rsql
 
 ## Usage
 
-To use library as standalone script in browser add script in your html
+To use library as standalone script in a browser, add `node_modules/@mw-experts/rsql/dist/rsql-browser.js` script to your html like this:
 
 ```
-<script src="node_modules/@mw-experts/rsql/dist/rsql-browser.js"></script>
+<script src="../node_modules/@mw-experts/rsql/dist/rsql-browser.js"></script>
 ```
 
 ### Filter array of objects

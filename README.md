@@ -18,17 +18,52 @@ yarn add @mw-experts/rsql
 
 ## Usage
 
-### Filtering array of objects
+### Import library
+
+Import library as CommonJS module:
+```
+const rsql = require('@mw-experts/rsql');
+```
+
+Import library as ES6 module:
+```
+import { RsqlFilter } from '@mw-experts/rsql';
+```
+or
+```
+import * as rsql from '@mw-experts/rsql';
+```
+
+Import library as standalone script in a browser:
+```
+<script src="../node_modules/@mw-experts/rsql/dist/rsql-browser.js"></script>
+```
+
+### Filter array of objects
 
 ```
 const data = [
-  {name: 'Kill Bill', year: 2006},
-  {name: 'Matrix', year: 2000},
-  {name: 'Terminator', year: 1998},
+  { name: 'Kill Bill', year: 2006 },
+  { name: 'Terminator', year: 1998 },
+  { name: 'Matrix', year: 2000 },
 ];
 
-const rsql = 'name=="Kill Bill";year=gt=2000';
-const result = RsqlFilter.getInstance().filter(rsql, data);
+const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+let result = [];
+
+try {
+  result = rsql.RsqlFilter.getInstance().filter(rsqlStr, data);
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result);
+
+// will output:
+// [
+//  { name: 'Kill Bill', year: 2006 },
+//  { name: 'Matrix', year: 2000 },
+// ]
 ```
 
 ## About RSQL / FIQL
@@ -77,15 +112,11 @@ These operators can be used to do all sort of simple queries, for example:
 
 The following tables lists two joining operators:
 
-| Composite Operator | Description         |
-|--------------------|---------------------|
-| ;                  | Logical AND         |
-| ,                  | Logical OR          |
-
-
 | Composite Operator   | Description         |
 |----------------------|---------------------|
+| ;                    | Logical AND         |
 | and                  | Logical AND         |
+| ,                    | Logical OR          |
 | or                   | Logical OR          |
 
 These two operators can be used to join the simple queries and build more involved queries which can be as complex as required.
@@ -119,4 +150,4 @@ Examples of RSQL expressions in both FIQL-like and alternative notation:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/mw-experts/rsql/blob/master/LICENSE) file for details

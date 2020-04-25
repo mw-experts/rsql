@@ -1,6 +1,7 @@
 node_modules
 dist
 coverage
+tools
 .idea
 .cache
 .DS_Store

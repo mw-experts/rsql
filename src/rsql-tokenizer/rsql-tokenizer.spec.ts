@@ -9,6 +9,12 @@ describe('RsqlTokenizer', () => {
 
   it('should tokenize Field', () => {
     expect.hasAssertions();
+    expect(unit.tokenize('long.complex-FIELD_777==')[0]).toStrictEqual({
+      charsBack: 2,
+      origin: 'long.complex-FIELD_777==',
+      type: 'FIELD',
+      value: 'long.complex-FIELD_777',
+    });
     expect(unit.tokenize('age==')[0]).toStrictEqual({
       charsBack: 2,
       origin: 'age==',
@@ -88,6 +94,12 @@ describe('RsqlTokenizer', () => {
 
   it('should tokenize Value in double quotes', () => {
     expect.hasAssertions();
+    expect(unit.tokenize('field=="Mike\'s car"')[2]).toStrictEqual({
+      charsBack: 2,
+      origin: '=="Mike\'s car"',
+      type: 'VALUE',
+      value: "Mike's car",
+    });
     expect(unit.tokenize('age=="1"')[2]).toStrictEqual({
       charsBack: 2,
       origin: '=="1"',
@@ -154,6 +166,12 @@ describe('RsqlTokenizer', () => {
 
   it('should tokenize Value in single quotes', () => {
     expect.hasAssertions();
+    expect(unit.tokenize("field=='Symbol \" is used here'")[2]).toStrictEqual({
+      charsBack: 2,
+      origin: "=='Symbol \" is used here'",
+      type: 'VALUE',
+      value: 'Symbol " is used here',
+    });
     expect(unit.tokenize("age=='1'")[2]).toStrictEqual({
       charsBack: 2,
       origin: "=='1'",
@@ -220,6 +238,12 @@ describe('RsqlTokenizer', () => {
 
   it('should tokenize Value no quotes', () => {
     expect.hasAssertions();
+    expect(unit.tokenize('field==VERY_strange-777-value.*')[2]).toStrictEqual({
+      charsBack: 2,
+      origin: '==VERY_strange-777-value.*',
+      type: 'VALUE',
+      value: 'VERY_strange-777-value.*',
+    });
     expect(unit.tokenize('age==1')[2]).toStrictEqual({
       charsBack: 2,
       origin: '==1',

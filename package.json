@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build-for-server": "tsc -p tsconfig.prod.json",
-    "build-for-browser": "parcel build -o rsql.js src/public-api.ts",
+    "build-for-browser": "parcel build --global -o rsql.min.js src/public-api.ts",
     "deploy": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-for-server && npm run build-for-browser && npm publish --access=public",
     "lint": "eslint src --ext .js,.ts --fix --max-warnings=0",
     "lint-ci": "eslint src --ext .js,.ts --max-warnings=0",

@@ -18,16 +18,25 @@ yarn add @mw-experts/rsql
 
 ## Usage
 
-To use library as standalone script in a browser, add `node_modules/@mw-experts/rsql/dist/rsql-browser.js` script to your html like this:
+### Import library
 
-```
-<script src="../node_modules/@mw-experts/rsql/dist/rsql-browser.js"></script>
-```
-
-To use library with nodejs import it like this:
-
+Import library as CommonJS module:
 ```
 const rsql = require('@mw-experts/rsql');
+```
+
+Import library as ES6 module:
+```
+import { RsqlFilter } from '@mw-experts/rsql';
+```
+or
+```
+import * as rsql from '@mw-experts/rsql';
+```
+
+Import library as standalone script in a browser:
+```
+<script src="../node_modules/@mw-experts/rsql/dist/rsql-browser.js"></script>
 ```
 
 ### Filter array of objects

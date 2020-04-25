@@ -16,16 +16,15 @@ or
 yarn add @mw-experts/rsql
 ```
 
-## Usage as standalone script in browser
+## Usage
 
-Add script to your html
+To use library as standalone script in browser add script in your html
 
 ```
-<script src="node_modules/@mw-experts/rsql/dist/rsql.js"></script>
-<script src="main.js"></script>
+<script src="node_modules/@mw-experts/rsql/dist/rsql-browser.js"></script>
 ```
 
-Filter array of objects in main.js
+### Filter array of objects
 
 ```
 const data = [
@@ -34,11 +33,11 @@ const data = [
   { name: 'Matrix', year: 2000 },
 ];
 
-const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+const rsql = 'name=="Kill Bill",year=ge=2000';
 let result = [];
 
 try {
-  result = rsql.RsqlFilter.getInstance().filter(rsqlStr, data);
+  result = RsqlFilter.getInstance().filter(rsql, data);
 } catch (e) {
   console.warn(e);
 }

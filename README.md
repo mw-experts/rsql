@@ -16,19 +16,40 @@ or
 yarn add @mw-experts/rsql
 ```
 
-## Usage
+## Usage as standalone script in browser
 
-### Filtering array of objects
+Add script to your html
+
+```
+<script src="node_modules/@mw-experts/rsql/dist/rsql.js"></script>
+<script src="main.js"></script>
+```
+
+Filter array of objects in main.js
 
 ```
 const data = [
-  {name: 'Kill Bill', year: 2006},
-  {name: 'Matrix', year: 2000},
-  {name: 'Terminator', year: 1998},
+  { name: 'Kill Bill', year: 2006 },
+  { name: 'Terminator', year: 1998 },
+  { name: 'Matrix', year: 2000 },
 ];
 
-const rsql = 'name=="Kill Bill";year=gt=2000';
-const result = RsqlFilter.getInstance().filter(rsql, data);
+const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+let result = [];
+
+try {
+  result = rsql.RsqlFilter.getInstance().filter(rsqlStr, data);
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result);
+
+// will output:
+// [
+//  { name: 'Kill Bill', year: 2006 },
+//  { name: 'Matrix', year: 2000 },
+// ]
 ```
 
 ## About RSQL / FIQL
@@ -77,15 +98,11 @@ These operators can be used to do all sort of simple queries, for example:
 
 The following tables lists two joining operators:
 
-| Composite Operator | Description         |
-|--------------------|---------------------|
-| ;                  | Logical AND         |
-| ,                  | Logical OR          |
-
-
 | Composite Operator   | Description         |
 |----------------------|---------------------|
+| ;                    | Logical AND         |
 | and                  | Logical AND         |
+| ,                    | Logical OR          |
 | or                   | Logical OR          |
 
 These two operators can be used to join the simple queries and build more involved queries which can be as complex as required.

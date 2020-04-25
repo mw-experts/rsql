@@ -1,4 +1,37 @@
-# RSQL / FIQL parser
+# RSQL / FIQL tools
+
+Complete and thoroughly tested parser for RSQL/FIQL written in Typescript(Javascript).
+Tool for filtering array of objects using RSQL/FIQL.
+Built with zero dependencies.
+
+## Installing
+
+```sh
+npm install @mw-experts/rsql
+```
+
+or
+
+```sh
+yarn add @mw-experts/rsql
+```
+
+## Usage
+
+### Filtering array of objects
+
+```
+const data = [
+  {name: 'Kill Bill', year: 2006},
+  {name: 'Matrix', year: 2000},
+  {name: 'Terminator', year: 1998},
+];
+
+const rsql = 'name=="Kill Bill";year=gt=2000';
+const result = RsqlFilter.getInstance().filter(rsql, data);
+```
+
+## About RSQL / FIQL
 
 RSQL is a query language for parametrized filtering of entries in RESTful APIs.
 
@@ -15,13 +48,6 @@ For example, you can query your resource like this:
 or
 
 `/movies?query=director.lastName==Nolan and year>=2000`.
-
-See examples below.
-
-This is a complete and thoroughly tested parser for RSQL written in Typescript(Javascript).
-Since RSQL is a superset of the FIQL, it can be used for parsing FIQL as well.
-
-## RSQL overview
 
 RSQL introduces simple and composite operators which can be used to build basic and complex queries.
 
@@ -56,6 +82,7 @@ The following tables lists two joining operators:
 | ;                  | Logical AND         |
 | ,                  | Logical OR          |
 
+
 | Composite Operator   | Description         |
 |----------------------|---------------------|
 | and                  | Logical AND         |
@@ -73,7 +100,7 @@ Note that while the complexity of the queries can grow, the complete expression 
 By default, operators evaluated from left to right.
 However, a parenthesized expression can be used to change the precedence.
 
-## Examples
+### Examples
 
 Examples of RSQL expressions in both FIQL-like and alternative notation:
 
@@ -84,16 +111,12 @@ Examples of RSQL expressions in both FIQL-like and alternative notation:
 - director.lastName==Nolan;year=ge=2000;year=lt=2010
 - director.lastName==Nolan and year>=2000 and year<2010
 - genres=in=(sci-fi,action);genres=out=(romance,animated,horror),director==Que*Tarantino
-- genres=in=(sci-fi,action) and genres=out=(romance,animated,horror) or director==Que*Tarantino
+- genres=in=(sci-fi,action) and genres=out=(romance,animated,horror) or director==Que*Tarantino`
 
-## How to use
+## Authors
 
-```
-const data = [{name: 'Kill Bill', year: 2006}];
-const rsqlFilter = RsqlFilter.getInstance();
-const result = rsqlFilter.filter('name=="Kill Bill";year=gt=2003', data);
-```
+* **Andrey Korovin** - [misticwonder](https://github.com/misticwonder)
 
 ## License
 
-This project is licensed under [MIT license](http://opensource.org/licenses/MIT).
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

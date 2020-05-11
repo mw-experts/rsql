@@ -35,4 +35,39 @@ describe('RsqlFilter', () => {
       { deep: { nested: { field: 777 } } },
     ]);
   });
+
+  it('should filter objects with array property includes all from clause', () => {
+    expect.hasAssertions();
+
+    const data = [
+      { fieldA: 'a', fieldB: ['s1', 's2', 's3'] },
+      { fieldA: 'b', fieldB: ['s2'] },
+      { fieldA: 'c', fieldB: ['s3', 's2', 's4'] },
+      { fieldA: 'd', fieldB: ['s1'] },
+      { fieldA: 'e', fieldB: ['s3', 's5', 's1'] },
+    ];
+
+    expect(filter.filter('fieldB=includes-all=(s2,s3)', data)).toStrictEqual([
+      { fieldA: 'a', fieldB: ['s1', 's2', 's3'] },
+      { fieldA: 'c', fieldB: ['s3', 's2', 's4'] },
+    ]);
+  });
+
+  it('should filter objects with array property includes any from clause', () => {
+    expect.hasAssertions();
+
+    const data = [
+      { fieldA: 'a', fieldB: ['s1', 's2', 's3'] },
+      { fieldA: 'b', fieldB: ['s2'] },
+      { fieldA: 'c', fieldB: ['s3', 's2', 's4'] },
+      { fieldA: 'd', fieldB: ['s5'] },
+      { fieldA: 'e', fieldB: ['s3', 's5', 's1'] },
+    ];
+
+    expect(filter.filter('fieldB=includes-one=(s1,s5)', data)).toStrictEqual([
+      { fieldA: 'a', fieldB: ['s1', 's2', 's3'] },
+      { fieldA: 'd', fieldB: ['s5'] },
+      { fieldA: 'e', fieldB: ['s3', 's5', 's1'] },
+    ]);
+  });
 });

@@ -39,7 +39,6 @@ describe('RsqlTokenizer', () => {
       type: 'FIELD',
       value: 'age',
     });
-
     expect(unit.tokenize('age=gt=')[0]).toStrictEqual({
       charsBack: 4,
       origin: 'age=gt=',
@@ -70,14 +69,12 @@ describe('RsqlTokenizer', () => {
       type: 'FIELD',
       value: 'age',
     });
-
     expect(unit.tokenize('age=out=')[0]).toStrictEqual({
       charsBack: 5,
       origin: 'age=out=',
       type: 'FIELD',
       value: 'age',
     });
-
     expect(unit.tokenize('age>')[0]).toStrictEqual({
       charsBack: 1,
       origin: 'age>',
@@ -87,6 +84,18 @@ describe('RsqlTokenizer', () => {
     expect(unit.tokenize('age<')[0]).toStrictEqual({
       charsBack: 1,
       origin: 'age<',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age=includes-all=')[0]).toStrictEqual({
+      charsBack: 14,
+      origin: 'age=includes-all=',
+      type: 'FIELD',
+      value: 'age',
+    });
+    expect(unit.tokenize('age=includes-one=')[0]).toStrictEqual({
+      charsBack: 14,
+      origin: 'age=includes-one=',
       type: 'FIELD',
       value: 'age',
     });
@@ -112,19 +121,12 @@ describe('RsqlTokenizer', () => {
       type: 'VALUE',
       value: '1 2',
     });
-    expect(unit.tokenize('age>="1*"')[2]).toStrictEqual({
-      charsBack: 2,
-      origin: '>="1*"',
-      type: 'VALUE',
-      value: '1*',
-    });
     expect(unit.tokenize('age<="1\'2"')[2]).toStrictEqual({
       charsBack: 2,
       origin: '<="1\'2"',
       type: 'VALUE',
       value: "1'2",
     });
-
     expect(unit.tokenize('age=gt="1"')[2]).toStrictEqual({
       charsBack: 4,
       origin: '=gt="1"',
@@ -137,19 +139,12 @@ describe('RsqlTokenizer', () => {
       type: 'VALUE',
       value: '1 2',
     });
-    expect(unit.tokenize('age=lt="1*"')[2]).toStrictEqual({
-      charsBack: 4,
-      origin: '=lt="1*"',
-      type: 'VALUE',
-      value: '1*',
-    });
     expect(unit.tokenize('age=le="1\'2"')[2]).toStrictEqual({
       charsBack: 4,
       origin: '=le="1\'2"',
       type: 'VALUE',
       value: "1'2",
     });
-
     expect(unit.tokenize('age<"1"')[2]).toStrictEqual({
       charsBack: 1,
       origin: '<"1"',
@@ -184,19 +179,12 @@ describe('RsqlTokenizer', () => {
       type: 'VALUE',
       value: '1 2',
     });
-    expect(unit.tokenize("age>='1*'")[2]).toStrictEqual({
-      charsBack: 2,
-      origin: ">='1*'",
-      type: 'VALUE',
-      value: '1*',
-    });
     expect(unit.tokenize("age<='1\"2'")[2]).toStrictEqual({
       charsBack: 2,
       origin: "<='1\"2'",
       type: 'VALUE',
       value: '1"2',
     });
-
     expect(unit.tokenize("age=gt='1'")[2]).toStrictEqual({
       charsBack: 4,
       origin: "=gt='1'",
@@ -209,19 +197,12 @@ describe('RsqlTokenizer', () => {
       type: 'VALUE',
       value: '1 2',
     });
-    expect(unit.tokenize("age=lt='1*'")[2]).toStrictEqual({
-      charsBack: 4,
-      origin: "=lt='1*'",
-      type: 'VALUE',
-      value: '1*',
-    });
     expect(unit.tokenize("age=le='1\"2'")[2]).toStrictEqual({
       charsBack: 4,
       origin: "=le='1\"2'",
       type: 'VALUE',
       value: '1"2',
     });
-
     expect(unit.tokenize("age>'1'")[2]).toStrictEqual({
       charsBack: 1,
       origin: ">'1'",
@@ -268,7 +249,6 @@ describe('RsqlTokenizer', () => {
       type: 'VALUE',
       value: '1',
     });
-
     expect(unit.tokenize('age=gt=1')[2]).toStrictEqual({
       charsBack: 4,
       origin: '=gt=1',
@@ -293,7 +273,6 @@ describe('RsqlTokenizer', () => {
       type: 'VALUE',
       value: '1',
     });
-
     expect(unit.tokenize('age<1')[2]).toStrictEqual({
       charsBack: 1,
       origin: '<1',
@@ -322,7 +301,18 @@ describe('RsqlTokenizer', () => {
       type: 'VALUE_LIST',
       value: ['1', '2', '3'],
     });
-
+    expect(unit.tokenize('age=includes-all=("1","2","3")')[2]).toStrictEqual({
+      charsBack: 14,
+      origin: '=includes-all=("1","2","3")',
+      type: 'VALUE_LIST',
+      value: ['1', '2', '3'],
+    });
+    expect(unit.tokenize('age=includes-one=("1","2","3")')[2]).toStrictEqual({
+      charsBack: 14,
+      origin: '=includes-one=("1","2","3")',
+      type: 'VALUE_LIST',
+      value: ['1', '2', '3'],
+    });
     expect(unit.tokenize("age=in=('1','2','3')")[2]).toStrictEqual({
       charsBack: 4,
       origin: "=in=('1','2','3')",
@@ -335,7 +325,18 @@ describe('RsqlTokenizer', () => {
       type: 'VALUE_LIST',
       value: ['1', '2', '3'],
     });
-
+    expect(unit.tokenize("age=includes-all=('1','2','3')")[2]).toStrictEqual({
+      charsBack: 14,
+      origin: "=includes-all=('1','2','3')",
+      type: 'VALUE_LIST',
+      value: ['1', '2', '3'],
+    });
+    expect(unit.tokenize("age=includes-one=('1','2','3')")[2]).toStrictEqual({
+      charsBack: 14,
+      origin: "=includes-one=('1','2','3')",
+      type: 'VALUE_LIST',
+      value: ['1', '2', '3'],
+    });
     expect(unit.tokenize('age=in=(1,2,3)')[2]).toStrictEqual({
       charsBack: 4,
       origin: '=in=(1,2,3)',
@@ -345,6 +346,18 @@ describe('RsqlTokenizer', () => {
     expect(unit.tokenize('age=out=(1,2,3)')[2]).toStrictEqual({
       charsBack: 5,
       origin: '=out=(1,2,3)',
+      type: 'VALUE_LIST',
+      value: ['1', '2', '3'],
+    });
+    expect(unit.tokenize('age=includes-all=(1,2,3)')[2]).toStrictEqual({
+      charsBack: 14,
+      origin: '=includes-all=(1,2,3)',
+      type: 'VALUE_LIST',
+      value: ['1', '2', '3'],
+    });
+    expect(unit.tokenize('age=includes-one=(1,2,3)')[2]).toStrictEqual({
+      charsBack: 14,
+      origin: '=includes-one=(1,2,3)',
       type: 'VALUE_LIST',
       value: ['1', '2', '3'],
     });
@@ -381,7 +394,6 @@ describe('RsqlTokenizer', () => {
       type: 'COMPOSITE_OR_OPERATOR',
       value: 'or',
     });
-
     expect(unit.tokenize('age>=5;age<=25')[3]).toStrictEqual({
       charsBack: 0,
       origin: ';',

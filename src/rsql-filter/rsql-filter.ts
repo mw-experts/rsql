@@ -110,6 +110,10 @@ export class RsqlFilter {
         return node.value.includes(stringData);
       case RsqlTokenType.BasicNotInOperator:
         return !node.value.includes(stringData);
+      case RsqlTokenType.BasicIncludesAllOperator:
+        return Array.isArray(data) && node.value.every((val: string) => data.includes(val));
+      case RsqlTokenType.BasicIncludesOneOperator:
+        return Array.isArray(data) && node.value.some((val: string) => data.includes(val));
       default:
         throw new TypeError(node);
     }

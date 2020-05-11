@@ -85,6 +85,11 @@ export class RsqlFilter {
     const numberData = Number(data);
     const numberValue = Number(node.value);
 
+    let arrData: string[] | null = null;
+    if (Array.isArray(data)) {
+      arrData = data.map((dataItem: unknown) => `${dataItem}`);
+    }
+
     switch (node.operator) {
       case RsqlTokenType.BasicEqualOperator:
         return node.value === stringData;
@@ -111,9 +116,13 @@ export class RsqlFilter {
       case RsqlTokenType.BasicNotInOperator:
         return !node.value.includes(stringData);
       case RsqlTokenType.BasicIncludesAllOperator:
-        return Array.isArray(data) && node.value.every((val: string) => data.includes(val));
+        return (
+          arrData !== null && node.value.every((val: string) => (arrData as string[]).includes(val))
+        );
       case RsqlTokenType.BasicIncludesOneOperator:
-        return Array.isArray(data) && node.value.some((val: string) => data.includes(val));
+        return (
+          arrData !== null && node.value.some((val: string) => (arrData as string[]).includes(val))
+        );
       default:
         throw new TypeError(node);
     }

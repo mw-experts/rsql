@@ -82,6 +82,12 @@ const data = [
 const rsql = 'deep.nested.field==777';
 ```
 
+Comparison rules:
+* "==", "!=" compare field and value as strings
+* "=gt=", ">", "=ge=", ">=", "=lt=", "<", "=le=", "<=" compare field and value as numbers
+* "=in=", "=out=", "=includes-all=", "=includes-one=" use js "includes" operator, so they compare field with array of strings. 
+It means field should be also string or array of strings
+
 ## About RSQL / FIQL
 
 RSQL is a query language for parametrized filtering of entries in RESTful APIs.

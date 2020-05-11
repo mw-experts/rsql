@@ -66,6 +66,22 @@ console.log(result);
 // ]
 ```
 
+You can ask for deep nested properties using . separator:
+
+```
+const data = [
+    {
+        deep: {
+            nested: {
+                field: 777
+            }
+        }
+    }
+]
+
+const rsql = 'deep.nested.field==777';
+```
+
 ## About RSQL / FIQL
 
 RSQL is a query language for parametrized filtering of entries in RESTful APIs.
@@ -102,6 +118,8 @@ RSQL introduces simple and composite operators which can be used to build basic 
 | <=             | Less Or Equal To    |
 | =in=           | In                  |
 | =out=          | Not in              |
+| =includes-all= | Includes all        |
+| =includes-one= | Includes one        |
 
 These operators can be used to do all sort of simple queries, for example:
 
@@ -117,6 +135,8 @@ These operators can be used to do all sort of simple queries, for example:
 * house<=3: find all people who have less than or 3 houses
 * name=in=(Fero,Jane) find all people whose name is Fero or Jane
 * name=out=(Alex,Mike) find all people whose name is not Alex or Mike
+* list=includes-all=(item1,item2) find all records where list is array and includes item1 and item2
+* list=includes-one=(item1,item2) find all records where list is array and includes item1 or item2
 
 ### Composite operators:
 
@@ -146,35 +166,12 @@ Here are some examples:
 * FieldName==value
 * FIELD_NAME_777==value
 
-You can ask for deep nested properties using . separator:
+#### Values can only consist of next regexp symbols:
 
-```
-const data = [
-    {
-        deep: {
-            nested: {
-                field: 777
-            }
-        }
-    }
-]
-
-const rsql = 'deep.nested.field==777';
-```
-
-#### Values can only consist of next regexp symbols: **[\w-.*]** (A-Za-z0-9_-.*)
-
-* field==VERY_strange-777-value.*
-
-If you need to use space wrap value in ' or "
-
-* field=='value with spaces'
-* field=="value with spaces"
-
-If you need to use ' or ":
-
-* field=="Mike's car"
-* field=='Symbol " is used here'
+* in double quotes - **[\s\w-.']** 
+* in single quotes - **[\s\w-."]** 
+* without quotes - **[\w-.]** 
+* with == or != operators you can also use asterisk * as a wildcard
 
 ### Ordering
 

@@ -38,7 +38,11 @@ export interface RsqlAstBasicExpressionNode {
 
 export interface RsqlAstBasicListExpressionNode {
   type: RsqlAstNodeType.BasicExpression;
-  operator: RsqlTokenType.BasicInOperator | RsqlTokenType.BasicNotInOperator;
+  operator:
+    | RsqlTokenType.BasicInOperator
+    | RsqlTokenType.BasicNotInOperator
+    | RsqlTokenType.BasicIncludesAllOperator
+    | RsqlTokenType.BasicIncludesOneOperator;
   field: string;
   value: string[];
 }

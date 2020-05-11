@@ -10,6 +10,8 @@ export enum RsqlTokenType {
   BasicLessOrEqualOperator = 'BASIC_LESS_OR_EQUAL_OPERATOR',
   BasicInOperator = 'BASIC_IN_OPERATOR',
   BasicNotInOperator = 'BASIC_NOT_IN_OPERATOR',
+  BasicIncludesAllOperator = 'BASIC_INCLUDES_ALL_OPERATOR',
+  BasicIncludesOneOperator = 'BASIC_INCLUDES_ONE_OPERATOR',
 
   ParenLeft = 'PAREN_LEFT',
   ParenRight = 'PAREN_RIGHT',

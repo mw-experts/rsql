@@ -70,4 +70,14 @@ describe('RsqlFilter', () => {
       { fieldA: 'e', fieldB: ['s3', 's5', 's1'] },
     ]);
   });
+
+  it('should filter strings with wildcard', () => {
+    expect.hasAssertions();
+
+    const data = [{ key: 'abcdefg' }, { key: 'cde' }, { key: '111fg' }, { key: 'ab222' }];
+
+    expect(filter.filter('key==*cde*', data)).toStrictEqual([{ key: 'abcdefg' }, { key: 'cde' }]);
+
+    expect(filter.filter('key==*fg', data)).toStrictEqual([{ key: 'abcdefg' }, { key: '111fg' }]);
+  });
 });

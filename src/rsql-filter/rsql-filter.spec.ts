@@ -77,7 +77,76 @@ describe('RsqlFilter', () => {
     const data = [{ key: 'abcdefg' }, { key: 'cde' }, { key: '111fg' }, { key: 'ab222' }];
 
     expect(filter.filter('key==*cde*', data)).toStrictEqual([{ key: 'abcdefg' }, { key: 'cde' }]);
-
     expect(filter.filter('key==*fg', data)).toStrictEqual([{ key: 'abcdefg' }, { key: '111fg' }]);
+  });
+
+  it('should not filter strings with wildcard', () => {
+    expect.hasAssertions();
+
+    const data = [{ key: 'abcdefg' }, { key: 'cde' }, { key: '111fg' }, { key: 'ab222' }];
+
+    expect(filter.filter('key!=*cde*', data)).toStrictEqual([{ key: '111fg' }, { key: 'ab222' }]);
+    expect(filter.filter('key!=*fg', data)).toStrictEqual([{ key: 'cde' }, { key: 'ab222' }]);
+  });
+
+  it('should filter case-insensitive', () => {
+    expect.hasAssertions();
+
+    const data = [
+      { name: 'Marina' },
+      { name: 'marina' },
+      { name: 'Maria' },
+      { name: 'maria' },
+      { name: 'Max' },
+      { name: 'max' },
+    ];
+
+    const dataArr = [{ name: ['Marina', 'maria'] }, { name: ['Max', 'max'] }];
+
+    expect(filter.filter('name==Marina', data)).toStrictEqual([
+      { name: 'Marina' },
+      { name: 'marina' },
+    ]);
+    expect(filter.filter('name==marina', data)).toStrictEqual([
+      { name: 'Marina' },
+      { name: 'marina' },
+    ]);
+    expect(filter.filter('name==*rina', data)).toStrictEqual([
+      { name: 'Marina' },
+      { name: 'marina' },
+    ]);
+
+    expect(filter.filter('name!=Maria', data)).toStrictEqual([
+      { name: 'Marina' },
+      { name: 'marina' },
+      { name: 'Max' },
+      { name: 'max' },
+    ]);
+    expect(filter.filter('name!=maria', data)).toStrictEqual([
+      { name: 'Marina' },
+      { name: 'marina' },
+      { name: 'Max' },
+      { name: 'max' },
+    ]);
+    expect(filter.filter('name!=mar*', data)).toStrictEqual([{ name: 'Max' }, { name: 'max' }]);
+
+    expect(filter.filter('name=in=(Maria,marina)', data)).toStrictEqual([
+      { name: 'Marina' },
+      { name: 'marina' },
+      { name: 'Maria' },
+      { name: 'maria' },
+    ]);
+    expect(filter.filter('name=out=(maria,Marina)', data)).toStrictEqual([
+      { name: 'Max' },
+      { name: 'max' },
+    ]);
+
+    expect(filter.filter('name=includes-all=(mArIa,MaRiNa)', dataArr)).toStrictEqual([
+      { name: ['Marina', 'maria'] },
+    ]);
+    expect(filter.filter('name=includes-one=(mAx,MaRiNa)', dataArr)).toStrictEqual([
+      { name: ['Marina', 'maria'] },
+      { name: ['Max', 'max'] },
+    ]);
   });
 });

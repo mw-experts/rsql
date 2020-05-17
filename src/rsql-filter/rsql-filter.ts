@@ -92,7 +92,11 @@ export class RsqlFilter {
 
     switch (node.operator) {
       case RsqlTokenType.BasicEqualOperator:
-        return node.value === stringData;
+        if (node.value.includes('*')) {
+          return this.compareWithWildcard(node.value, stringData);
+        } else {
+          return node.value === stringData;
+        }
       case RsqlTokenType.BasicNotEqualOperator:
         return node.value !== stringData;
       case RsqlTokenType.BasicGreaterOperator:
@@ -126,5 +130,12 @@ export class RsqlFilter {
       default:
         throw new TypeError(node);
     }
+  }
+
+  private compareWithWildcard(patternWithWildcard: string, data: string): boolean {
+    const pattern = patternWithWildcard.replace(/\*/g, '.*');
+    const regexp = new RegExp(`^${pattern}$`);
+
+    return regexp.test(data);
   }
 }

@@ -81,13 +81,13 @@ export class RsqlFilter {
     listItem: any,
   ): boolean {
     const data = deepFindProperty(listItem, node.field);
-    const stringData = `${data}`;
+    const stringData = `${data}`.toLowerCase();
     const numberData = Number(data);
     const numberValue = Number(node.value);
 
     let arrData: string[] | null = null;
     if (Array.isArray(data)) {
-      arrData = data.map((dataItem: unknown) => `${dataItem}`);
+      arrData = data.map((dataItem: unknown) => `${dataItem}`.toLowerCase());
     }
 
     switch (node.operator) {
@@ -95,13 +95,13 @@ export class RsqlFilter {
         if (node.value.includes('*')) {
           return this.compareWithWildcard(node.value, stringData);
         } else {
-          return node.value === stringData;
+          return node.value.toLowerCase() === stringData;
         }
       case RsqlTokenType.BasicNotEqualOperator:
         if (node.value.includes('*')) {
           return !this.compareWithWildcard(node.value, stringData);
         } else {
-          return node.value !== stringData;
+          return node.value.toLowerCase() !== stringData;
         }
       case RsqlTokenType.BasicGreaterOperator:
         return Number.isNaN(numberData) || Number.isNaN(numberValue)
@@ -120,16 +120,22 @@ export class RsqlFilter {
           ? false
           : numberData <= numberValue;
       case RsqlTokenType.BasicInOperator:
-        return node.value.includes(stringData);
+        return node.value.map((item: string) => item.toLowerCase()).includes(stringData);
       case RsqlTokenType.BasicNotInOperator:
-        return !node.value.includes(stringData);
+        return !node.value.map((item: string) => item.toLowerCase()).includes(stringData);
       case RsqlTokenType.BasicIncludesAllOperator:
         return (
-          arrData !== null && node.value.every((val: string) => (arrData as string[]).includes(val))
+          arrData !== null &&
+          node.value
+            .map((item: string) => item.toLowerCase())
+            .every((val: string) => (arrData as string[]).includes(val))
         );
       case RsqlTokenType.BasicIncludesOneOperator:
         return (
-          arrData !== null && node.value.some((val: string) => (arrData as string[]).includes(val))
+          arrData !== null &&
+          node.value
+            .map((item: string) => item.toLowerCase())
+            .some((val: string) => (arrData as string[]).includes(val))
         );
       default:
         throw new TypeError(node);

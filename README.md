@@ -82,6 +82,16 @@ const data = [
 const rsql = 'deep.nested.field==777';
 ```
 
+#### Filter is case-insensitive
+
+* `name==Marina` and `name==marina` will give the same results - Marina, marina 
+
+#### Usage of wildcard
+
+You can use wildcard `*` in `==` and `!=` operators. Example:
+* `name==Ma*` find all items where name starts from `Ma` - Marina, Maxim, Maria 
+* `value==*de*` find all items where value starts and ends with any symbols - Made, abcdefg 
+
 #### Comparison rules:
 
 * "==", "!=" before comparison data converts to string

@@ -98,7 +98,11 @@ export class RsqlFilter {
           return node.value === stringData;
         }
       case RsqlTokenType.BasicNotEqualOperator:
-        return node.value !== stringData;
+        if (node.value.includes('*')) {
+          return !this.compareWithWildcard(node.value, stringData);
+        } else {
+          return node.value !== stringData;
+        }
       case RsqlTokenType.BasicGreaterOperator:
         return Number.isNaN(numberData) || Number.isNaN(numberValue)
           ? false

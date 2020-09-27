@@ -57,7 +57,7 @@ export class RsqlFilter {
       case RsqlAstNodeType.BasicExpression:
         return this.evalBasicExpression(node, listItem);
       default:
-        throw new TypeError(node);
+        throw new TypeError(`Unsupported type`);
     }
   }
 
@@ -71,7 +71,7 @@ export class RsqlFilter {
       case RsqlTokenType.CompositeOrOperator:
         return value.some(Boolean);
       default:
-        throw new TypeError(operator);
+        throw new TypeError(`Unsupported operator`);
     }
   }
 
@@ -138,7 +138,7 @@ export class RsqlFilter {
             .some((val: string) => (arrData as string[]).includes(val))
         );
       default:
-        throw new TypeError(node);
+        throw new TypeError(`Unsupported operator`);
     }
   }
 

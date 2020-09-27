@@ -7,6 +7,12 @@ describe('RsqlToSqlConverter', () => {
     converter = RsqlToSqlConverter.getInstance();
   });
 
+  it('should trim value', () => {
+    expect.hasAssertions();
+
+    expect(converter.convert('   age==NULL   ')).toBe('"age" IS NULL');
+  });
+
   it('should return empty value', () => {
     expect.hasAssertions();
 

@@ -33,11 +33,13 @@ export class RsqlFilter {
   }
 
   filter<T>(rsql: string, list: T[]): T[] {
-    if (rsql.trim() === '') {
+    const input = rsql.trim();
+
+    if (input === '') {
       return list;
     }
 
-    const tokens: Token<RsqlTokenType>[] = this.tokenizer.tokenize(rsql);
+    const tokens: Token<RsqlTokenType>[] = this.tokenizer.tokenize(input);
     const ast: RsqlAstRootNode = this.parser.parse(tokens);
     return list.filter((item: T) => this.traverse<T>(ast, item));
   }

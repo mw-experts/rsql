@@ -32,11 +32,13 @@ export class RsqlToSqlConverter {
   }
 
   convert(rsql: string): string {
-    if (rsql.trim() === '') {
+    const input = rsql.trim();
+
+    if (input === '') {
       return '';
     }
 
-    const tokens: Token<RsqlTokenType>[] = this.tokenizer.tokenize(rsql);
+    const tokens: Token<RsqlTokenType>[] = this.tokenizer.tokenize(input);
     const ast: RsqlAstRootNode = this.parser.parse(tokens);
     return this.traverse(ast);
   }

@@ -158,6 +158,7 @@ console.log(result);
 ```
 
 * "=includes-all=", "=includes-one=" operators are not supported in RsqlToSqlConverter
+* remove whitespaces of the input rsql from both sides (trim) before processing
 
 ## Filter array of objects
 
@@ -204,6 +205,7 @@ const rsql = 'deep.nested.field==777';
 
 #### Filter is case-insensitive
 
+* remove whitespaces of the input rsql from both sides (trim) before processing
 * `name==Marina` and `name==marina` will give the same results - Marina, marina 
 
 #### Usage of wildcard

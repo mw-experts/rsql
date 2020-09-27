@@ -7,6 +7,20 @@ describe('RsqlFilter', () => {
     filter = RsqlFilter.getInstance();
   });
 
+  it('should trim value', () => {
+    expect.hasAssertions();
+
+    const data = [
+      { name: 'Andrey', age: 30 },
+      { name: 'Anna', age: 18 },
+      { name: 'Alina', age: 22 },
+    ];
+
+    expect(filter.filter('   age>20;(name==Anna,name==Alina)   ', data)).toStrictEqual([
+      { age: 22, name: 'Alina' },
+    ]);
+  });
+
   it('should return not changed value', () => {
     expect.hasAssertions();
 

@@ -7,6 +7,13 @@ describe('RsqlToSqlConverter', () => {
     converter = RsqlToSqlConverter.getInstance();
   });
 
+  it('should return empty value', () => {
+    expect.hasAssertions();
+
+    expect(converter.convert('')).toBe('');
+    expect(converter.convert('   ')).toBe('');
+  });
+
   it('should convert NULL expressions', () => {
     expect.hasAssertions();
 

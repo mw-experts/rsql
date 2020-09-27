@@ -5,6 +5,12 @@ describe('RsqlParser', () => {
   const tokenizer = RsqlTokenizer.getInstance();
   const parser = RsqlParser.getInstance();
 
+  it('should throw error', () => {
+    expect.hasAssertions();
+
+    expect(() => parser.parse([])).toThrow('RSQL parsing error, nothing to parse');
+  });
+
   it('should tokenize', () => {
     expect.hasAssertions();
 

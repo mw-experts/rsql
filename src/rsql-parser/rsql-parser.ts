@@ -28,6 +28,10 @@ export class RsqlParser {
   ];
 
   parse(input: Token<RsqlTokenType>[]): RsqlAstRootNode {
+    if (input.length === 0) {
+      throw new TypeError('RSQL parsing error, nothing to parse');
+    }
+
     return {
       type: RsqlAstNodeType.Root,
       value: this.parseRecursive(input),

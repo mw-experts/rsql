@@ -1,8 +1,9 @@
-import { RsqlFilter } from './public-api';
+import { RsqlFilter, RsqlToSqlConverter } from './public-api';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const window: any;
 
 window.rsql = {
   RsqlFilter,
+  RsqlToSqlConverter,
 };

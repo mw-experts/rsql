@@ -1,6 +1,7 @@
 # RSQL / FIQL tools
 
 Complete and thoroughly tested parser for RSQL/FIQL written in Typescript(Javascript).
+Tool for converting RSQL/FIQL to SQL.
 Tool for filtering array of objects using RSQL/FIQL.
 Built with zero dependencies.
 
@@ -28,6 +29,7 @@ const rsql = require('@mw-experts/rsql');
 Import library as ES6 module:
 ```
 import { RsqlFilter } from '@mw-experts/rsql';
+import { RsqlToSqlConverter } from '@mw-experts/rsql';
 ```
 or
 ```
@@ -38,66 +40,6 @@ Import library as standalone script in a browser:
 ```
 <script src="../node_modules/@mw-experts/rsql/dist/rsql-browser.js"></script>
 ```
-
-### Filter array of objects
-
-```
-const data = [
-  { name: 'Kill Bill', year: 2006 },
-  { name: 'Terminator', year: 1998 },
-  { name: 'Matrix', year: 2000 },
-];
-
-const rsqlStr = 'name=="Kill Bill",year=ge=2000';
-let result = [];
-
-try {
-  result = rsql.RsqlFilter.getInstance().filter(rsqlStr, data);
-} catch (e) {
-  console.warn(e);
-}
-
-console.log(result);
-
-// will output:
-// [
-//  { name: 'Kill Bill', year: 2006 },
-//  { name: 'Matrix', year: 2000 },
-// ]
-```
-
-#### You can ask for deep nested properties using . separator:
-
-```
-const data = [
-    {
-        deep: {
-            nested: {
-                field: 777
-            }
-        }
-    }
-]
-
-const rsql = 'deep.nested.field==777';
-```
-
-#### Filter is case-insensitive
-
-* `name==Marina` and `name==marina` will give the same results - Marina, marina 
-
-#### Usage of wildcard
-
-You can use wildcard `*` in `==` and `!=` operators. Example:
-* `name==Ma*` find all items where name starts from `Ma` - Marina, Maxim, Maria 
-* `value==*de*` find all items where value starts and ends with any symbols - Made, abcdefg 
-
-#### Comparison rules:
-
-* "==", "!=" before comparison data converts to string
-* "=gt=", ">", "=ge=", ">=", "=lt=", "<", "=le=", "<=" before comparison data converts to number
-* "=in=", "=out=" before comparison data converts to string
-* "=includes-all=", "=includes-one=" before comparison data converts to array of strings
 
 ## About RSQL / FIQL
 
@@ -196,6 +138,86 @@ By default, operators evaluated from left to right.
 However, a parenthesized expression can be used to change the precedence.
 
 * age=lt=20;(name==Fero,name==Jane): find all people younger than 20 with names either Fero or Jane.
+
+## Convert RSQL to SQL
+
+```
+const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+let result;
+
+try {
+  result = rsql.RsqlToSqlConverter.getInstance().convert(rsqlStr);
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result);
+
+// will output:
+// ("name" = 'Kill Bill' OR "year" >= '2000')
+```
+
+* "=includes-all=", "=includes-one=" operators are not supported in RsqlToSqlConverter
+
+## Filter array of objects
+
+```
+const data = [
+  { name: 'Kill Bill', year: 2006 },
+  { name: 'Terminator', year: 1998 },
+  { name: 'Matrix', year: 2000 },
+];
+
+const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+let result = [];
+
+try {
+  result = rsql.RsqlFilter.getInstance().filter(rsqlStr, data);
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result);
+
+// will output:
+// [
+//  { name: 'Kill Bill', year: 2006 },
+//  { name: 'Matrix', year: 2000 },
+// ]
+```
+
+#### You can ask for deep nested properties using . separator:
+
+```
+const data = [
+    {
+        deep: {
+            nested: {
+                field: 777
+            }
+        }
+    }
+]
+
+const rsql = 'deep.nested.field==777';
+```
+
+#### Filter is case-insensitive
+
+* `name==Marina` and `name==marina` will give the same results - Marina, marina 
+
+#### Usage of wildcard
+
+You can use wildcard `*` in `==` and `!=` operators. Example:
+* `name==Ma*` find all items where name starts from `Ma` - Marina, Maxim, Maria 
+* `value==*de*` find all items where value starts and ends with any symbols - Made, abcdefg 
+
+#### Comparison rules:
+
+* "==", "!=" before comparison data converts to string
+* "=gt=", ">", "=ge=", ">=", "=lt=", "<", "=le=", "<=" before comparison data converts to number
+* "=in=", "=out=" before comparison data converts to string
+* "=includes-all=", "=includes-one=" before comparison data converts to array of strings
 
 ## Authors
 

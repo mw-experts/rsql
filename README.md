@@ -1,9 +1,9 @@
 # RSQL / FIQL tools
 
-Complete and thoroughly tested parser for RSQL/FIQL written in Typescript(Javascript).
-Tool for converting RSQL/FIQL to SQL.
-Tool for filtering array of objects using RSQL/FIQL.
-Built with zero dependencies.
+- Complete, secure and thoroughly tested parser for RSQL/FIQL written in Typescript(Javascript).
+- Tool for converting RSQL/FIQL to SQL.
+- Tool for filtering array of objects using RSQL/FIQL.
+- Built with zero dependencies.
 
 ## Installing
 
@@ -117,7 +117,7 @@ Here are some examples:
 
 ### Fields and Values
 
-#### Fields can only consist of next regexp symbols: **[\w-.]** (A-Za-z0-9_-.)
+#### Fields can only consist of next regexp symbols: **[\w-.]** (A-Za-z0-9_-.) 1-60 characters length and MAX 1 dot in it
 
 * field.name==value
 * field-name==value

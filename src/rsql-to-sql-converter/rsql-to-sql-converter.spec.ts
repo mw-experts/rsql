@@ -50,10 +50,10 @@ describe('RsqlToSqlConverter', () => {
     expect(converter.convert('name==Andrey')).toBe('"name" = \'Andrey\'');
     expect(converter.convert('name!=Andrey')).toBe('"name" != \'Andrey\'');
 
-    expect(converter.convert('age>16')).toBe('"age" > \'16\'');
-    expect(converter.convert('age>=16')).toBe('"age" >= \'16\'');
-    expect(converter.convert('age<16')).toBe('"age" < \'16\'');
-    expect(converter.convert('age<=16')).toBe('"age" <= \'16\'');
+    expect(converter.convert('age>16')).toBe('"age" > 16');
+    expect(converter.convert('age>=16')).toBe('"age" >= 16');
+    expect(converter.convert('age<16')).toBe('"age" < 16');
+    expect(converter.convert('age<=16')).toBe('"age" <= 16');
 
     expect(converter.convert('name=in=(Fero,Jane)')).toBe("\"name\" IN ('Fero', 'Jane')");
     expect(converter.convert('name=out=(Fero,Jane)')).toBe("\"name\" NOT IN ('Fero', 'Jane')");
@@ -69,18 +69,40 @@ describe('RsqlToSqlConverter', () => {
   it('should convert composite expressions', () => {
     expect.hasAssertions();
 
-    expect(converter.convert('name==Andrey;age>16')).toBe(
-      '("name" = \'Andrey\' AND "age" > \'16\')',
-    );
-    expect(converter.convert('name==Andrey,age>16')).toBe(
-      '("name" = \'Andrey\' OR "age" > \'16\')',
-    );
+    expect(converter.convert('name==Andrey;age>16')).toBe('("name" = \'Andrey\' AND "age" > 16)');
+    expect(converter.convert('name==Andrey,age>16')).toBe('("name" = \'Andrey\' OR "age" > 16)');
 
     expect(converter.convert('name==Andrey or (age>16 and age<25)')).toBe(
-      '("name" = \'Andrey\' OR ("age" > \'16\' AND "age" < \'25\'))',
+      '("name" = \'Andrey\' OR ("age" > 16 AND "age" < 25))',
     );
     expect(converter.convert('name=="Kill Bill",year=ge=2000')).toBe(
-      '("name" = \'Kill Bill\' OR "year" >= \'2000\')',
+      '("name" = \'Kill Bill\' OR "year" >= 2000)',
+    );
+  });
+
+  it('should escape single-quote character', () => {
+    expect.hasAssertions();
+
+    expect(converter.convert(`name=="An'drey"`)).toBe(`"name" = 'An''drey'`);
+  });
+
+  it('should divide by dot character', () => {
+    expect.hasAssertions();
+
+    expect(converter.convert(`user.name=="Andrey"`)).toBe(`"user"."name" = 'Andrey'`);
+  });
+
+  it('should use numbers without quotes', () => {
+    expect.hasAssertions();
+
+    expect(converter.convert(`age>16`)).toBe(`"age" > 16`);
+  });
+
+  it('should throw error on deep nested field', () => {
+    expect.hasAssertions();
+
+    expect(() => converter.convert(`user.age.max>16`)).toThrow(
+      'Unsupported deep nested value (more than 1 dot): user.age.max',
     );
   });
 });

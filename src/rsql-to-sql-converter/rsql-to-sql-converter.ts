@@ -98,35 +98,64 @@ export class RsqlToSqlConverter {
   private evalBasicNotNullExpression(
     node: RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode,
   ): string {
+    const field = this.prepareField(node.field);
+    const value = Array.isArray(node.value)
+      ? node.value.map((v) => this.prepareValue(v))
+      : this.prepareValue(node.value);
+
     switch (node.operator) {
       case RsqlTokenType.BasicEqualOperator:
-        if (node.value.includes('*')) {
-          const value = node.value.replace(/\*/g, '%');
-          return `"${node.field}" LIKE '${value}'`;
+        if (value.includes('*')) {
+          const val = (value as string).replace(/\*/g, '%');
+          return `${field} LIKE ${val}`;
         } else {
-          return `"${node.field}" = '${node.value}'`;
+          return `${field} = ${value}`;
         }
       case RsqlTokenType.BasicNotEqualOperator:
-        if (node.value.includes('*')) {
-          const value = node.value.replace(/\*/g, '%');
-          return `"${node.field}" NOT LIKE '${value}'`;
+        if (value.includes('*')) {
+          const val = (value as string).replace(/\*/g, '%');
+          return `${field} NOT LIKE ${val}`;
         } else {
-          return `"${node.field}" != '${node.value}'`;
+          return `${field} != ${value}`;
         }
       case RsqlTokenType.BasicGreaterOperator:
-        return `"${node.field}" > '${node.value}'`;
+        return `${field} > ${value}`;
       case RsqlTokenType.BasicGreaterOrEqualOperator:
-        return `"${node.field}" >= '${node.value}'`;
+        return `${field} >= ${value}`;
       case RsqlTokenType.BasicLessOperator:
-        return `"${node.field}" < '${node.value}'`;
+        return `${field} < ${value}`;
       case RsqlTokenType.BasicLessOrEqualOperator:
-        return `"${node.field}" <= '${node.value}'`;
+        return `${field} <= ${value}`;
       case RsqlTokenType.BasicInOperator:
-        return `"${node.field}" IN (${node.value.map((v: string) => `'${v}'`).join(', ')})`;
+        return `${field} IN (${(value as string[]).map((v: string) => `${v}`).join(', ')})`;
       case RsqlTokenType.BasicNotInOperator:
-        return `"${node.field}" NOT IN (${node.value.map((v: string) => `'${v}'`).join(', ')})`;
+        return `${field} NOT IN (${(value as string[]).map((v: string) => `${v}`).join(', ')})`;
       default:
         throw new TypeError(`Unsupported operator: ${node.operator}`);
     }
+  }
+
+  private prepareField(field: string): string {
+    const parts = field.split('.');
+
+    if (parts.length > 2) {
+      throw new TypeError(`Unsupported deep nested value (more than 1 dot): ${field}`);
+    }
+
+    return field
+      .split('.')
+      .map((part: string) => `"${part}"`)
+      .join('.');
+  }
+
+  private prepareValue(value: string): string {
+    const numberValue = Number(value);
+    const isNumberValue = !Number.isNaN(numberValue);
+
+    return isNumberValue ? `${value}` : `'${this.escapeValue(value)}'`;
+  }
+
+  private escapeValue(value: string): string {
+    return value.replace(/'/gi, `''`);
   }
 }

@@ -127,10 +127,10 @@ Here are some examples:
 
 #### Values can only consist of next regexp symbols:
 
-* in double quotes - **[\s\w-.']** 
-* in single quotes - **[\s\w-."]** 
-* without quotes - **[\w-.]** 
-* with == or != operators you can also use asterisk * as a wildcard
+* in double quotes - space, any unicode letter, any unicode number, `_`, `-`, `.`, `'`
+* in single quotes - space, any unicode letter, any unicode number, `_`, `-`, `.`, `"`
+* without quotes - any unicode letter, any unicode number, `_`, `-`, `.`
+* with == or != operators you can also use asterisk `*` as a wildcard
 
 ### Ordering
 

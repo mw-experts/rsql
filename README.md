@@ -157,6 +157,25 @@ console.log(result);
 // ("name" = 'Kill Bill' OR "year" >= '2000')
 ```
 
+You can have different field names wrapper, for example if you use Mysql.
+Just pass a second argument to `convert` method like this:
+
+```
+const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+let result;
+
+try {
+  result = rsql.RsqlToSqlConverter.getInstance().convert(rsqlStr, '`');
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result);
+
+// will output:
+// (`name` = 'Kill Bill' OR `year` >= '2000')
+```
+
 * "=includes-all=", "=includes-one=" operators are not supported in RsqlToSqlConverter
 
 ## Filter array of objects

@@ -70,4 +70,12 @@ describe('RsqlToSqlConverter', () => {
       '("name" = \'Kill Bill\' OR "year" >= \'2000\')',
     );
   });
+
+  it('should have different wrapFieldSymbol', () => {
+    expect.hasAssertions();
+
+    expect(converter.convert('name==Andrey;age>16', '`')).toBe(
+      "(`name` = 'Andrey' AND `age` > '16')",
+    );
+  });
 });

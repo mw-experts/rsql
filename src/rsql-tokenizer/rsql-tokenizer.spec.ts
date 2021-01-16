@@ -287,6 +287,66 @@ describe('RsqlTokenizer', () => {
     });
   });
 
+  it('should tokenize Value any lang', () => {
+    expect.hasAssertions();
+    expect(unit.tokenize('(name==北京,name_cn==北京)')).toStrictEqual([
+      {
+        charsBack: 0,
+        origin: '(',
+        type: 'PAREN_LEFT',
+        value: '(',
+      },
+      {
+        charsBack: 2,
+        origin: 'name==',
+        type: 'FIELD',
+        value: 'name',
+      },
+      {
+        charsBack: 0,
+        origin: '==',
+        type: 'BASIC_EQUAL_OPERATOR',
+        value: '==',
+      },
+      {
+        charsBack: 2,
+        origin: '==北京',
+        type: 'VALUE',
+        value: '北京',
+      },
+      {
+        charsBack: 0,
+        origin: ',',
+        type: 'COMPOSITE_OR_OPERATOR',
+        value: ',',
+      },
+      {
+        charsBack: 2,
+        origin: 'name_cn==',
+        type: 'FIELD',
+        value: 'name_cn',
+      },
+      {
+        charsBack: 0,
+        origin: '==',
+        type: 'BASIC_EQUAL_OPERATOR',
+        value: '==',
+      },
+      {
+        charsBack: 2,
+        origin: '==北京',
+        type: 'VALUE',
+        value: '北京',
+      },
+      {
+        charsBack: 0,
+        origin: ')',
+        type: 'PAREN_RIGHT',
+        value: ')',
+      },
+    ]);
+  });
+
   it('should tokenize lists', () => {
     expect.hasAssertions();
     expect(unit.tokenize('age=in=("1","2","3")')[2]).toStrictEqual({

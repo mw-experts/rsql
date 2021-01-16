@@ -70,39 +70,45 @@ export class RsqlTokenizer {
         ),
       )
 
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:==|!=)"([\s\w-.'*]+)"/, 1, 2))
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:>=|<=)"([\s\w-.']+)"/, 1, 2))
+      // [\s\w-.'*] === [\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027\u002A]
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:==|!=)"([\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027\u002A]+)"/u, 1, 2))
+      // [\s\w-.'] === [\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:>=|<=)"([\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+)"/u, 1, 2))
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.Value,
-          /(?:=gt=|=ge=|=lt=|=le=)"([\s\w-.']+)"/,
+          /(?:=gt=|=ge=|=lt=|=le=)"([\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+)"/u,
           1,
           4,
         ),
       )
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /[<>]"([\s\w-.']+)"/, 1, 1))
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /[<>]"([\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+)"/u, 1, 1))
 
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:==|!=)'([\s\w-."*]+)'/, 1, 2))
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:>=|<=)'([\s\w-."]+)'/, 1, 2))
+      // [\s\w-."*] === [\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022\u002A]
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:==|!=)'([\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022\u002A]+)'/u, 1, 2))
+      // [\s\w-."] === [\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:>=|<=)'([\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+)'/u, 1, 2))
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.Value,
-          /(?:=gt=|=ge=|=lt=|=le=)'([\s\w-."]+)'/,
+          /(?:=gt=|=ge=|=lt=|=le=)'([\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+)'/u,
           1,
           4,
         ),
       )
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /[<>]'([\s\w-."]+)'/, 1, 1))
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /[<>]'([\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+)'/u, 1, 1))
 
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:==|!=)([\w-.*]+)/, 1, 2))
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:>=|<=)([\w-.]+)/, 1, 2))
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:=gt=|=ge=|=lt=|=le=)([\w-.]+)/, 1, 4))
-      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /[<>]([\w-.]+)/, 1, 1))
+      // [\w-.*] === [\p{L}\p{N}\u005F\u002D\u002E\u002A]
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:==|!=)([\p{L}\p{N}\u005F\u002D\u002E\u002A]+)/u, 1, 2))
+      // [\w-.] === [\p{L}\p{N}\u005F\u002D\u002E]
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:>=|<=)([\p{L}\p{N}\u005F\u002D\u002E]+)/u, 1, 2))
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /(?:=gt=|=ge=|=lt=|=le=)([\p{L}\p{N}\u005F\u002D\u002E]+)/u, 1, 4))
+      .add(new TokenRegexpExtractor(RsqlTokenType.Value, /[<>]([\p{L}\p{N}\u005F\u002D\u002E]+)/u, 1, 1))
 
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /=in=\(((?:"[\s\w-.']+",)*"[\s\w-.']+")\)/,
+          /=in=\(((?:"[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+",)*"[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+")\)/u,
           1,
           4,
           0,
@@ -112,7 +118,7 @@ export class RsqlTokenizer {
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /=out=\(((?:"[\s\w-.']+",)*"[\s\w-.']+")\)/,
+          /=out=\(((?:"[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+",)*"[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+")\)/u,
           1,
           5,
           0,
@@ -122,7 +128,7 @@ export class RsqlTokenizer {
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /(?:=includes-all=|=includes-one=)\(((?:"[\s\w-.']+",)*"[\s\w-.']+")\)/,
+          /(?:=includes-all=|=includes-one=)\(((?:"[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+",)*"[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0027]+")\)/u,
           1,
           14,
           0,
@@ -133,7 +139,7 @@ export class RsqlTokenizer {
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /=in=\(((?:'[\s\w-."]+',)*'[\s\w-."]+')\)/,
+          /=in=\(((?:'[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+',)*'[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+')\)/u,
           1,
           4,
           0,
@@ -143,7 +149,7 @@ export class RsqlTokenizer {
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /=out=\(((?:'[\s\w-."]+',)*'[\s\w-."]+')\)/,
+          /=out=\(((?:'[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+',)*'[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+')\)/u,
           1,
           5,
           0,
@@ -153,7 +159,7 @@ export class RsqlTokenizer {
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /(?:=includes-all=|=includes-one=)\(((?:'[\s\w-."]+',)*'[\s\w-."]+')\)/,
+          /(?:=includes-all=|=includes-one=)\(((?:'[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+',)*'[\u0020\p{L}\p{N}\u005F\u002D\u002E\u0022]+')\)/u,
           1,
           14,
           0,
@@ -164,7 +170,7 @@ export class RsqlTokenizer {
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /=in=\(((?:[\w-.]+,)*[\w-.]+)\)/,
+          /=in=\(((?:[\p{L}\p{N}\u005F\u002D\u002E]+,)*[\p{L}\p{N}\u005F\u002D\u002E]+)\)/u,
           1,
           4,
           0,
@@ -174,7 +180,7 @@ export class RsqlTokenizer {
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /=out=\(((?:[\w-.]+,)*[\w-.]+)\)/,
+          /=out=\(((?:[\p{L}\p{N}\u005F\u002D\u002E]+,)*[\p{L}\p{N}\u005F\u002D\u002E]+)\)/u,
           1,
           5,
           0,
@@ -184,7 +190,7 @@ export class RsqlTokenizer {
       .add(
         new TokenRegexpExtractor(
           RsqlTokenType.ValueList,
-          /(?:=includes-all=|=includes-one=)\(((?:[\w-.]+,)*[\w-.]+)\)/,
+          /(?:=includes-all=|=includes-one=)\(((?:[\p{L}\p{N}\u005F\u002D\u002E]+,)*[\p{L}\p{N}\u005F\u002D\u002E]+)\)/u,
           1,
           14,
           0,

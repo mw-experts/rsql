@@ -31,8 +31,8 @@
   "scripts": {
     "build-commonjs": "tsc -p tsconfig.prod.json",
     "build-browser": "parcel build src/rsql-browser.ts --no-source-maps",
-    "publish:patch": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public",
-    "publish:minor": "rm -rf dist && npm version minor -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public",
+    "publish:patch": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
+    "publish:minor": "rm -rf dist && npm version minor -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
     "lint": "eslint src --ext .js,.ts --fix --max-warnings=0",
     "lint-ci": "eslint src --ext .js,.ts --max-warnings=0",
     "test": "jest src --passWithNoTests --collectCoverage --colors --notify",

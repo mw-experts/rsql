@@ -31,16 +31,16 @@ export class RsqlToSqlConverter {
     this.parser = RsqlParser.getInstance();
   }
 
-  convert(rsql: string): string {
+  convert(rsql: string, wrapFieldSymbol = '"'): string {
     const tokens: Token<RsqlTokenType>[] = this.tokenizer.tokenize(rsql);
     const ast: RsqlAstRootNode = this.parser.parse(tokens);
-    return this.traverse(ast);
+    return this.traverse(ast, wrapFieldSymbol);
   }
 
-  private traverse(node: RsqlAstNode): string {
+  private traverse(node: RsqlAstNode, wrapFieldSymbol: string): string {
     switch (node.type) {
       case RsqlAstNodeType.Root:
-        return this.traverse(node.value);
+        return this.traverse(node.value, wrapFieldSymbol);
       case RsqlAstNodeType.CompositeExpression:
         return this.evalCompositeExpression(
           node.operator,
@@ -50,13 +50,13 @@ export class RsqlToSqlConverter {
                 | RsqlAstCompositeExpressionNode
                 | RsqlAstBasicExpressionNode
                 | RsqlAstBasicListExpressionNode,
-            ) => this.traverse(item),
+            ) => this.traverse(item, wrapFieldSymbol),
           ),
         );
       case RsqlAstNodeType.BasicExpression:
         return !Array.isArray(node.value) && ['null', 'NULL'].includes(node.value)
-          ? this.evalBasicNullExpression(node)
-          : this.evalBasicNotNullExpression(node);
+          ? this.evalBasicNullExpression(node, wrapFieldSymbol)
+          : this.evalBasicNotNullExpression(node, wrapFieldSymbol);
       default:
         throw new TypeError(`Unsupported type`);
     }
@@ -78,12 +78,13 @@ export class RsqlToSqlConverter {
 
   private evalBasicNullExpression(
     node: RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode,
+    wrapFieldSymbol: string,
   ): string {
     switch (node.operator) {
       case RsqlTokenType.BasicEqualOperator:
-        return `"${node.field}" IS NULL`;
+        return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} IS NULL`;
       case RsqlTokenType.BasicNotEqualOperator:
-        return `"${node.field}" IS NOT NULL`;
+        return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} IS NOT NULL`;
       default:
         throw new TypeError(`Unsupported operator: ${node.operator} with ${node.value} value`);
     }
@@ -91,34 +92,39 @@ export class RsqlToSqlConverter {
 
   private evalBasicNotNullExpression(
     node: RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode,
+    wrapFieldSymbol: string,
   ): string {
     switch (node.operator) {
       case RsqlTokenType.BasicEqualOperator:
         if (node.value.includes('*')) {
           const value = node.value.replace(/\*/g, '%');
-          return `"${node.field}" LIKE '${value}'`;
+          return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} LIKE '${value}'`;
         } else {
-          return `"${node.field}" = '${node.value}'`;
+          return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} = '${node.value}'`;
         }
       case RsqlTokenType.BasicNotEqualOperator:
         if (node.value.includes('*')) {
           const value = node.value.replace(/\*/g, '%');
-          return `"${node.field}" NOT LIKE '${value}'`;
+          return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} NOT LIKE '${value}'`;
         } else {
-          return `"${node.field}" != '${node.value}'`;
+          return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} != '${node.value}'`;
         }
       case RsqlTokenType.BasicGreaterOperator:
-        return `"${node.field}" > '${node.value}'`;
+        return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} > '${node.value}'`;
       case RsqlTokenType.BasicGreaterOrEqualOperator:
-        return `"${node.field}" >= '${node.value}'`;
+        return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} >= '${node.value}'`;
       case RsqlTokenType.BasicLessOperator:
-        return `"${node.field}" < '${node.value}'`;
+        return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} < '${node.value}'`;
       case RsqlTokenType.BasicLessOrEqualOperator:
-        return `"${node.field}" <= '${node.value}'`;
+        return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} <= '${node.value}'`;
       case RsqlTokenType.BasicInOperator:
-        return `"${node.field}" IN (${node.value.map((v: string) => `'${v}'`).join(', ')})`;
+        return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} IN (${node.value
+          .map((v: string) => `'${v}'`)
+          .join(', ')})`;
       case RsqlTokenType.BasicNotInOperator:
-        return `"${node.field}" NOT IN (${node.value.map((v: string) => `'${v}'`).join(', ')})`;
+        return `${wrapFieldSymbol}${node.field}${wrapFieldSymbol} NOT IN (${node.value
+          .map((v: string) => `'${v}'`)
+          .join(', ')})`;
       default:
         throw new TypeError(`Unsupported operator: ${node.operator}`);
     }

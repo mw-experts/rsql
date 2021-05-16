@@ -8,7 +8,8 @@ import { RsqlParser } from '../rsql-parser/rsql-parser';
 describe('RsqlMatcher', () => {
   let matcher: RsqlMatcher;
 
-  beforeEach(() => {``
+  beforeEach(() => {
+    ``;
     matcher = RsqlMatcher.getInstance();
   });
 
@@ -29,7 +30,9 @@ describe('RsqlMatcher', () => {
     const data1 = { name: 'Alina', age: 22 };
     const data2 = { name: 'Andrey', age: 30 };
 
-    const tokens: Token<RsqlTokenType>[] = RsqlTokenizer.getInstance().tokenize('age>20;(name==Anna,name==Alina)');
+    const tokens: Token<RsqlTokenType>[] = RsqlTokenizer.getInstance().tokenize(
+      'age>20;(name==Anna,name==Alina)',
+    );
     const ast: RsqlAstRootNode = RsqlParser.getInstance().parse(tokens);
 
     expect(matcher.matchWithPreparedAst(ast, data1)).toBe(true);

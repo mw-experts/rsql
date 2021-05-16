@@ -36,9 +36,6 @@ jobs:
       - name: Prettier
         run: npm run prettier-ci
 
-      - name: Lint
-        run: npm run lint-ci
-
       - name: Test
         run: npm run test-ci
 

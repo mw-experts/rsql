@@ -33,8 +33,6 @@
     "build-browser": "parcel build src/rsql-browser.ts --no-source-maps",
     "publish:patch": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
     "publish:minor": "rm -rf dist && npm version minor -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
-    "lint": "eslint src --ext .js,.ts --fix --max-warnings=0",
-    "lint-ci": "eslint src --ext .js,.ts --max-warnings=0",
     "test": "jest src --passWithNoTests --collectCoverage --colors --notify",
     "test-watch": "jest src --passWithNoTests --colors --watch",
     "test-ci": "jest src --passWithNoTests --bail --ci",
@@ -45,7 +43,6 @@
   },
   "lint-staged": {
     "src/**/*.{js,ts}": [
-      "eslint --fix --max-warnings=0",
       "jest --bail --findRelatedTests"
     ],
     "src/**/*.{js,ts,scss,html}": [
@@ -60,18 +57,13 @@
     }
   },
   "devDependencies": {
-    "@types/jest": "^25.2.1",
-    "@typescript-eslint/eslint-plugin": "^2.28.0",
-    "@typescript-eslint/parser": "^2.28.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-jest": "^23.8.2",
-    "husky": "^4.2.5",
-    "jest": "^25.3.0",
-    "lint-staged": "^10.1.3",
-    "parcel-bundler": "^1.12.4",
-    "prettier": "2.0.4",
-    "ts-jest": "^25.3.1",
-    "typescript": "^3.8.3"
+    "@types/jest": "^26.0.23",
+    "husky": "^6.0.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^11.0.0",
+    "parcel-bundler": "^1.12.5",
+    "prettier": "2.3.0",
+    "ts-jest": "^26.5.6",
+    "typescript": "^4.2.4"
   }
 }

@@ -10,6 +10,8 @@ export * from './rsql-parser/rsql-parser';
 export * from './rsql-parser/entities/rsql-ast-node';
 export * from './rsql-parser/entities/rsql-ast-node-type';
 
+export * from './rsql-matcher/rsql-matcher';
+
 export * from './rsql-filter/rsql-filter';
 
 export * from './rsql-to-sql-converter/rsql-to-sql-converter';

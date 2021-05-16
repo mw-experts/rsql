@@ -28,6 +28,7 @@ const rsql = require('@mw-experts/rsql');
 
 Import library as ES6 module:
 ```
+import { RsqlMatcher } from '@mw-experts/rsql';
 import { RsqlFilter } from '@mw-experts/rsql';
 import { RsqlToSqlConverter } from '@mw-experts/rsql';
 ```
@@ -219,6 +220,47 @@ const data = [
 ]
 
 const rsql = 'deep.nested.field==777';
+```
+
+## Match item
+
+```
+const data = { name: 'Matrix', year: 2000 };
+
+const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+
+try {
+  result = rsql.RsqlMatcher.getInstance().match(rsqlStr, data);
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result);
+
+// will output: false
+```
+
+## Match many items
+
+```
+const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+
+const tokens: Token<RsqlTokenType>[] = RsqlTokenizer.getInstance().tokenize(rsql);
+const ast: RsqlAstRootNode = RsqlParser.getInstance().parse(tokens);
+const matcher: RsqlMatcher = RsqlMatcher.getInstance();
+
+try {
+  result1 = matcher.matchWithPreparedAst(ast, { name: 'Matrix', year: 2000 });
+  result2 = matcher.matchWithPreparedAst(ast, { name: 'Kill Bill', year: 2021 });
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result1);
+// will output: false
+
+console.log(result2);
+// will output: true
 ```
 
 #### Filter is case-insensitive

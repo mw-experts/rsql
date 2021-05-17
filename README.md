@@ -1,8 +1,7 @@
 # RSQL / FIQL tools
 
 Complete and thoroughly tested parser for RSQL/FIQL written in Typescript(Javascript).
-Tool for converting RSQL/FIQL to SQL.
-Tool for filtering array of objects using RSQL/FIQL.
+Tools to work with RSQL: matcher, filter, converter to SQL.
 Built with zero dependencies.
 
 ## Installing

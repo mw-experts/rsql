@@ -33,7 +33,7 @@
   },
   "scripts": {
     "build-commonjs": "tsc -p tsconfig.prod.json",
-    "build-browser": "parcel build src/rsql-browser.ts --no-source-maps",
+    "build-browser": "parcel src/rsql-browser.ts",
     "publish:patch": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
     "publish:minor": "rm -rf dist && npm version minor -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
     "test": "jest src --passWithNoTests --collectCoverage --colors --notify",

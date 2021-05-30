@@ -1,6 +1,6 @@
 {
   "name": "@mw-experts/rsql",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Complete and thoroughly tested parser for RSQL/FIQL written in Typescript(Javascript). Tool for converting RSQL/FIQL to SQL. Tool for filtering array of objects using RSQL/FIQL. Built with zero dependencies.",
   "keywords": [
     "javascript",
@@ -60,11 +60,13 @@
     }
   },
   "devDependencies": {
+    "@parcel/packager-ts": "^2.0.0-beta.3.1",
+    "@parcel/transformer-typescript-types": "^2.0.0-beta.3.1",
     "@types/jest": "^26.0.23",
     "husky": "^6.0.0",
     "jest": "^27.0.3",
     "lint-staged": "^11.0.0",
-    "parcel-bundler": "^1.12.5",
+    "parcel": "^2.0.0-beta.3.1",
     "prettier": "^2.3.0",
     "ts-jest": "^27.0.1",
     "typescript": "^4.3.2"

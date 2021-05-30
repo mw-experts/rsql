@@ -32,10 +32,10 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "build-commonjs": "tsc -p tsconfig.prod.json",
-    "build-browser": "webpack",
-    "publish:patch": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
-    "publish:minor": "rm -rf dist && npm version minor -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
+    "build-commonjs": "rm -rf dist/rsql && tsc -p tsconfig.prod.json",
+    "build-browser": "rm -rf dist/rsql-browser.js && webpack",
+    "publish:patch": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-browser && npm run build-commonjs && npm publish --access=public && git push origin HEAD",
+    "publish:minor": "rm -rf dist && npm version minor -m 'publish v.%s' && npm run build-browser && npm run build-commonjs && npm publish --access=public && git push origin HEAD",
     "test": "jest src --passWithNoTests --collectCoverage --colors",
     "test-watch": "jest src --passWithNoTests --colors --watch",
     "test-ci": "jest src --passWithNoTests --bail --ci",

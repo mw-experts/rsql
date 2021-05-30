@@ -33,10 +33,10 @@
   },
   "scripts": {
     "build-commonjs": "tsc -p tsconfig.prod.json",
-    "build-browser": "parcel src/rsql-browser.ts",
+    "build-browser": "webpack",
     "publish:patch": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
     "publish:minor": "rm -rf dist && npm version minor -m 'publish v.%s' && npm run build-commonjs && npm run build-browser && npm publish --access=public && git push origin HEAD",
-    "test": "jest src --passWithNoTests --collectCoverage --colors --notify",
+    "test": "jest src --passWithNoTests --collectCoverage --colors",
     "test-watch": "jest src --passWithNoTests --colors --watch",
     "test-ci": "jest src --passWithNoTests --bail --ci",
     "prettier": "prettier --write \"src/**/*.{js,ts,scss,html}\"",
@@ -60,15 +60,15 @@
     }
   },
   "devDependencies": {
-    "@parcel/packager-ts": "^2.0.0-beta.3.1",
-    "@parcel/transformer-typescript-types": "^2.0.0-beta.3.1",
     "@types/jest": "^26.0.23",
     "husky": "^6.0.0",
     "jest": "^27.0.3",
     "lint-staged": "^11.0.0",
-    "parcel": "^2.0.0-beta.3.1",
     "prettier": "^2.3.0",
     "ts-jest": "^27.0.1",
-    "typescript": "^4.3.2"
+    "ts-loader": "^9.2.2",
+    "typescript": "^4.3.2",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0"
   }
 }

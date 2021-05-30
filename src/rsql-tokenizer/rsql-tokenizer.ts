@@ -23,6 +23,10 @@ export class RsqlTokenizer {
   }
 
   tokenize(input: string): Token<RsqlTokenType>[] {
+    if (typeof input !== 'string') {
+      throw new Error(`Input should be correct RSQL string.`);
+    }
+
     return this.tokenizer.tokenize(input);
   }
 

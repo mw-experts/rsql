@@ -177,6 +177,7 @@ console.log(result);
 ```
 
 * "=includes-all=", "=includes-one=" operators are not supported in RsqlToSqlConverter
+* Not included in browser bundle
 
 ## Filter array of objects
 
@@ -226,7 +227,7 @@ const rsql = 'deep.nested.field==777';
 ```
 const data = { name: 'Matrix', year: 2000 };
 
-const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+const rsqlStr = 'name=="Kill Bill";year=ge=2000';
 
 try {
   result = rsql.RsqlMatcher.getInstance().match(rsqlStr, data);
@@ -241,12 +242,37 @@ console.log(result);
 
 ## Match many items
 
-```
-const rsqlStr = 'name=="Kill Bill",year=ge=2000';
+typescript version:
 
-const tokens: Token<RsqlTokenType>[] = RsqlTokenizer.getInstance().tokenize(rsql);
+```
+const rsqlStr = 'name=="Kill Bill";year=ge=2000';
+
+const tokens: Token<RsqlTokenType>[] = RsqlTokenizer.getInstance().tokenize(rsqlStr);
 const ast: RsqlAstRootNode = RsqlParser.getInstance().parse(tokens);
 const matcher: RsqlMatcher = RsqlMatcher.getInstance();
+
+try {
+  result1 = matcher.matchWithPreparedAst(ast, { name: 'Matrix', year: 2000 });
+  result2 = matcher.matchWithPreparedAst(ast, { name: 'Kill Bill', year: 2021 });
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result1);
+// will output: false
+
+console.log(result2);
+// will output: true
+```
+
+javascript version:
+
+```
+const rsqlStr = 'name=="Kill Bill";year=ge=2000';
+
+const tokens = rsql.RsqlTokenizer.getInstance().tokenize(rsqlStr);
+const ast = rsql.RsqlParser.getInstance().parse(tokens);
+const matcher = rsql.RsqlMatcher.getInstance();
 
 try {
   result1 = matcher.matchWithPreparedAst(ast, { name: 'Matrix', year: 2000 });

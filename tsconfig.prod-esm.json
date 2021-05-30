@@ -1,5 +1,10 @@
 {
   "extends": "./tsconfig",
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "./dist/esm/",
+  },
   "include": ["src/**/*"],
   "exclude": ["src/**/*.spec.ts", "src/rsql-browser.ts"]
 }

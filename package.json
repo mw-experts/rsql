@@ -20,8 +20,8 @@
     "url": "https://github.com/mw-experts/rsql/issues"
   },
   "homepage": "https://github.com/mw-experts/rsql#readme",
-  "main": "dist/rsql/public-api.js",
-  "types": "dist/rsql/public-api.d.ts",
+  "module": "dist/esm/public-api.js",
+  "main": "dist/cjs/public-api.js",
   "files": [
     "dist"
   ],
@@ -32,8 +32,9 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "build-commonjs": "rm -rf dist/rsql && tsc -p tsconfig.prod.json",
-    "build-browser": "rm -rf dist/rsql-browser.js && webpack",
+    "build-tsc-cjs": "tsc -p tsconfig.prod-cjs.json",
+    "build-tsc-esm": "tsc -p tsconfig.prod-esm.json",
+    "build-browser": "webpack",
     "publish:patch": "rm -rf dist && npm version patch -m 'publish v.%s' && npm run build-browser && npm run build-commonjs && npm publish --access=public && git push origin HEAD",
     "publish:minor": "rm -rf dist && npm version minor -m 'publish v.%s' && npm run build-browser && npm run build-commonjs && npm publish --access=public && git push origin HEAD",
     "test": "jest src --passWithNoTests --collectCoverage --colors",

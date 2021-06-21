@@ -97,13 +97,13 @@ export class RsqlMatcher {
     switch (node.operator) {
       case RsqlTokenType.BasicEqualOperator:
         if (node.value.includes('*')) {
-          return this.compareWithWildcard(node.value, stringData);
+          return this.compareWithWildcard(node.value.toLowerCase(), stringData);
         } else {
           return node.value.toLowerCase() === stringData;
         }
       case RsqlTokenType.BasicNotEqualOperator:
         if (node.value.includes('*')) {
-          return !this.compareWithWildcard(node.value, stringData);
+          return !this.compareWithWildcard(node.value.toLowerCase(), stringData);
         } else {
           return node.value.toLowerCase() !== stringData;
         }

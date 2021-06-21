@@ -78,6 +78,7 @@ describe('RsqlFilter', () => {
 
     expect(filter.filter('key==*cde*', data)).toStrictEqual([{ key: 'abcdefg' }, { key: 'cde' }]);
     expect(filter.filter('key==*fg', data)).toStrictEqual([{ key: 'abcdefg' }, { key: '111fg' }]);
+
   });
 
   it('should not filter strings with wildcard', () => {
@@ -115,6 +116,10 @@ describe('RsqlFilter', () => {
       { name: 'Marina' },
       { name: 'marina' },
     ]);
+    expect(filter.filter('name==*RINA', data)).toStrictEqual([
+      { name: 'Marina' },
+      { name: 'marina' },
+    ]);
 
     expect(filter.filter('name!=Maria', data)).toStrictEqual([
       { name: 'Marina' },
@@ -129,7 +134,7 @@ describe('RsqlFilter', () => {
       { name: 'max' },
     ]);
     expect(filter.filter('name!=mar*', data)).toStrictEqual([{ name: 'Max' }, { name: 'max' }]);
-
+    expect(filter.filter('name!=Mar*', data)).toStrictEqual([{ name: 'Max' }, { name: 'max' }]);
     expect(filter.filter('name=in=(Maria,marina)', data)).toStrictEqual([
       { name: 'Marina' },
       { name: 'marina' },

@@ -78,7 +78,6 @@ describe('RsqlFilter', () => {
 
     expect(filter.filter('key==*cde*', data)).toStrictEqual([{ key: 'abcdefg' }, { key: 'cde' }]);
     expect(filter.filter('key==*fg', data)).toStrictEqual([{ key: 'abcdefg' }, { key: '111fg' }]);
-
   });
 
   it('should not filter strings with wildcard', () => {

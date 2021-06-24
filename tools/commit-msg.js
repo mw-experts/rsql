@@ -47,7 +47,7 @@ function getCurrentBranch() {
 
 if (
   !/^#\d+\/[a-z0-9-]{3,}/.test(getCurrentBranch()) &&
-  !/^master$/
+  !/^main$/
 ) {
   console.log(`
     Branch name should follow the pattern:

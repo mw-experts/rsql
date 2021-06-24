@@ -311,4 +311,4 @@ You can use wildcard `*` in `==` and `!=` operators. Example:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/mw-experts/rsql/blob/master/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/mw-experts/rsql/blob/main/LICENSE) file for details

@@ -135,6 +135,7 @@ describe('RsqlFilter', () => {
     ]);
     expect(filter.filter('name!=mar*', data)).toStrictEqual([{ name: 'Max' }, { name: 'max' }]);
     expect(filter.filter('name!=Mar*', data)).toStrictEqual([{ name: 'Max' }, { name: 'max' }]);
+
     expect(filter.filter('name=in=(Maria,marina)', data)).toStrictEqual([
       { name: 'Marina' },
       { name: 'marina' },

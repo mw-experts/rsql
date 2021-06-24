@@ -41,5 +41,6 @@ jobs:
 
       - name: Build
         run: |
-          npm run build-commonjs
           npm run build-browser
+          npm run build-tsc-cjs
+          npm run build-tsc-esm

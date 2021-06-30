@@ -543,4 +543,52 @@ describe('RsqlTokenizer', () => {
       value: '=out=',
     });
   });
+
+  it('should handle value with parentheses', () => {
+    expect.hasAssertions();
+
+    const resultSingleQuotesIn = unit.tokenize(`suspicious=in=('Yes','Yes (inaccurate)')`);
+    expect(resultSingleQuotesIn[2]).toStrictEqual({
+      charsBack: 4,
+      origin: `=in=('Yes','Yes (inaccurate)')`,
+      type: "VALUE_LIST",
+      value: [
+        "Yes",
+        "Yes (inaccurate)"
+      ]
+    });
+
+    const resultDoubleQuotesIn = unit.tokenize(`suspicious=in=("Yes","Yes (inaccurate)")`);
+    expect(resultDoubleQuotesIn[2]).toStrictEqual({
+      charsBack: 4,
+      origin: `=in=("Yes","Yes (inaccurate)")`,
+      type: "VALUE_LIST",
+      value: [
+        "Yes",
+        "Yes (inaccurate)"
+      ]
+    });
+
+    const resultSingleQuotesOut = unit.tokenize(`suspicious=out=('Yes','Yes (inaccurate)')`);
+    expect(resultSingleQuotesOut[2]).toStrictEqual({
+      charsBack: 5,
+      origin: `=out=('Yes','Yes (inaccurate)')`,
+      type: "VALUE_LIST",
+      value: [
+        "Yes",
+        "Yes (inaccurate)"
+      ]
+    });
+
+    const resultDoubleQuotesOut = unit.tokenize(`suspicious=out=("Yes","Yes (inaccurate)")`);
+    expect(resultDoubleQuotesOut[2]).toStrictEqual({
+      charsBack: 5,
+      origin: `=out=("Yes","Yes (inaccurate)")`,
+      type: "VALUE_LIST",
+      value: [
+        "Yes",
+        "Yes (inaccurate)"
+      ]
+    });
+  });
 });

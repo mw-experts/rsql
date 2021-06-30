@@ -127,8 +127,8 @@ Here are some examples:
 
 #### Values can only consist of next regexp symbols:
 
-* in double quotes - space, any unicode letter, any unicode number, `_`, `-`, `.`, `'`
-* in single quotes - space, any unicode letter, any unicode number, `_`, `-`, `.`, `"`
+* in double quotes - space, any unicode letter, any unicode number, `_`, `-`, `.`, `'`, `(`, `)`
+* in single quotes - space, any unicode letter, any unicode number, `_`, `-`, `.`, `"`, `(`, `)`
 * without quotes - any unicode letter, any unicode number, `_`, `-`, `.`
 * with == or != operators you can also use asterisk `*` as a wildcard
 

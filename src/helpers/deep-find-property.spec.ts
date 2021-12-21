@@ -16,6 +16,10 @@ describe('deepFindProperty', () => {
         w: '',
         q: null,
       },
+      arr: [
+        { inArr: 1 },
+        { inArr: 2 },
+      ],
       flat: 'flat result',
     };
   });
@@ -43,5 +47,11 @@ describe('deepFindProperty', () => {
   it('should return result with alternative separator', () => {
     expect.hasAssertions();
     expect(deepFindProperty<string>(obj, 'a$$$b$$$c', '$$$')).toBe('result');
+  });
+
+  it('should return correct result if value is in array notation', () => {
+    expect.hasAssertions();
+    expect(deepFindProperty<boolean>(obj, 'arr[1].inArr')).toBe(2);
+    expect(deepFindProperty<boolean>(obj, 'arr[1]')).toStrictEqual({ inArr: 2 });
   });
 });

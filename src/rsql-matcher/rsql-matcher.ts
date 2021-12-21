@@ -81,13 +81,13 @@ export class RsqlMatcher {
 
   private evalBasicExpression(
     node: RsqlAstBasicExpressionNode | RsqlAstBasicListExpressionNode,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     listItem: any,
   ): boolean {
     const data = deepFindProperty(listItem, node.field);
     const stringData = `${data}`.toLowerCase();
     const numberData = Number(data);
-    const numberValue = Number(node.value);
+    const value = this.getValue(listItem, node.value);
+    const numberValue = Number(value);
 
     let arrData: string[] | null = null;
     if (Array.isArray(data)) {
@@ -96,16 +96,16 @@ export class RsqlMatcher {
 
     switch (node.operator) {
       case RsqlTokenType.BasicEqualOperator:
-        if (node.value.includes('*')) {
-          return this.compareWithWildcard(node.value.toLowerCase(), stringData);
+        if (typeof value === 'string' && value.includes('*')) {
+          return this.compareWithWildcard(value.toLowerCase(), stringData);
         } else {
-          return node.value.toLowerCase() === stringData;
+          return value.toString().toLowerCase() === stringData;
         }
       case RsqlTokenType.BasicNotEqualOperator:
-        if (node.value.includes('*')) {
-          return !this.compareWithWildcard(node.value.toLowerCase(), stringData);
+        if (typeof value === 'string' && value.includes('*')) {
+          return !this.compareWithWildcard(value.toLowerCase(), stringData);
         } else {
-          return node.value.toLowerCase() !== stringData;
+          return value.toString().toLowerCase() !== stringData;
         }
       case RsqlTokenType.BasicGreaterOperator:
         return Number.isNaN(numberData) || Number.isNaN(numberValue)
@@ -124,20 +124,20 @@ export class RsqlMatcher {
           ? false
           : numberData <= numberValue;
       case RsqlTokenType.BasicInOperator:
-        return node.value.map((item: string) => item.toLowerCase()).includes(stringData);
+        return (value as string[]).map((item: string) => item.toLowerCase()).includes(stringData);
       case RsqlTokenType.BasicNotInOperator:
-        return !node.value.map((item: string) => item.toLowerCase()).includes(stringData);
+        return !(value as string[]).map((item: string) => item.toLowerCase()).includes(stringData);
       case RsqlTokenType.BasicIncludesAllOperator:
         return (
           arrData !== null &&
-          node.value
+          (value as string[])
             .map((item: string) => item.toLowerCase())
             .every((val: string) => (arrData as string[]).includes(val))
         );
       case RsqlTokenType.BasicIncludesOneOperator:
         return (
           arrData !== null &&
-          node.value
+          (value as string[])
             .map((item: string) => item.toLowerCase())
             .some((val: string) => (arrData as string[]).includes(val))
         );
@@ -151,5 +151,12 @@ export class RsqlMatcher {
     const regexp = new RegExp(`^${pattern}$`);
 
     return regexp.test(data);
+  }
+
+  private getValue(listItem: any, value: string | string[]): typeof value {
+    if (Array.isArray(value)) {
+      return value.map((el: string): string => deepFindProperty(listItem, el) ?? el);
+    }
+    return deepFindProperty(listItem, value) ?? value;
   }
 }

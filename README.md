@@ -206,7 +206,7 @@ console.log(result);
 // ]
 ```
 
-#### You can ask for deep nested properties using . separator:
+#### You can ask for deep nested properties using dot separator - `someObj.prop`, or array notation - `someList[0].prop`:
 
 ```
 const data = [
@@ -215,11 +215,13 @@ const data = [
             nested: {
                 field: 777
             }
-        }
+        },
+        list: [1, 2, 3]
     }
 ]
 
 const rsql = 'deep.nested.field==777';
+const rsql = 'list[1]==2';
 ```
 
 ## Match item
@@ -238,6 +240,34 @@ try {
 console.log(result);
 
 // will output: false
+```
+
+
+Value part of matching expression also can be used as path to value, example:
+
+```
+const data = [
+    {
+        deep: {
+            nested: {
+                field: 2
+            }
+        },
+        list: [1, 2, 3]
+    }
+]
+
+const rsqlStr = 'deep.nested.field==list[1]';
+
+try {
+  result = rsql.RsqlMatcher.getInstance().match(rsqlStr, data);
+} catch (e) {
+  console.warn(e);
+}
+
+console.log(result);
+
+// will output: true
 ```
 
 ## Match many items

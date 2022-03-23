@@ -69,4 +69,54 @@ describe('RsqlMatcher', () => {
     ast = RsqlParser.getInstance().parse(tokens);
     expect(matcher.matchWithPreparedAst(ast, data)).toBe(true);
   });
+
+  it('should match item in array', () => {
+    expect.hasAssertions();
+
+    const data = {
+      elements: [
+        {
+          age: 20,
+        },
+        {
+          age: 30,
+        },
+        {
+          age: 40,
+        }
+      ]
+    };
+
+    let tokens: Token<RsqlTokenType>[];
+    let ast: RsqlAstRootNode;
+
+    tokens = RsqlTokenizer.getInstance().tokenize('elements[1].age==30');
+    ast = RsqlParser.getInstance().parse(tokens);
+    expect(matcher.matchWithPreparedAst(ast, data)).toBe(true);
+  });
+
+  it('should match value in array', () => {
+    expect.hasAssertions();
+
+    const data = {
+      elements: [
+        {
+          age: 20,
+        },
+        {
+          age: 30,
+        },
+        {
+          age: 20,
+        }
+      ]
+    };
+
+    let tokens: Token<RsqlTokenType>[];
+    let ast: RsqlAstRootNode;
+
+    tokens = RsqlTokenizer.getInstance().tokenize('elements[0].age==elements[2].age');
+    ast = RsqlParser.getInstance().parse(tokens);
+    expect(matcher.matchWithPreparedAst(ast, data)).toBe(true);
+  });
 });

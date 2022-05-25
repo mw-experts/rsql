@@ -119,4 +119,24 @@ describe('RsqlMatcher', () => {
     ast = RsqlParser.getInstance().parse(tokens);
     expect(matcher.matchWithPreparedAst(ast, data)).toBe(true);
   });
+
+  it('should match empty string', () => {
+    expect.hasAssertions();
+
+    const data = {
+      item: {
+        emptyStringValue: '',
+      },
+    };
+
+    expect(matcher.match('item.emptyStringValue==""', data)).toBe(true);
+    expect(matcher.match("item.emptyStringValue==''", data)).toBe(true);
+    expect(matcher.match(`item.emptyStringValue==''`, data)).toBe(true);
+    expect(matcher.match(`item.emptyStringValue==""`, data)).toBe(true);
+
+    expect(matcher.match('item.emptyStringValue!=""', data)).toBe(false);
+    expect(matcher.match("item.emptyStringValue!=''", data)).toBe(false);
+    expect(matcher.match(`item.emptyStringValue!=''`, data)).toBe(false);
+    expect(matcher.match(`item.emptyStringValue!=""`, data)).toBe(false);
+  });
 });

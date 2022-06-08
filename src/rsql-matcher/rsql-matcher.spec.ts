@@ -139,4 +139,30 @@ describe('RsqlMatcher', () => {
     expect(matcher.match(`item.emptyStringValue!=''`, data)).toBe(false);
     expect(matcher.match(`item.emptyStringValue!=""`, data)).toBe(false);
   });
+
+  it('should match square brackets', () => {
+    expect.hasAssertions();
+
+    const data = {
+      value: '[Hello World] some text'
+    };
+
+    expect(matcher.match('value==*[*', data)).toBe(true);
+    expect(matcher.match('value=="*[*"', data)).toBe(true);
+    expect(matcher.match(`value=='*[*'`, data)).toBe(true);
+
+    expect(matcher.match('value==*]*', data)).toBe(true);
+    expect(matcher.match('value=="*]*"', data)).toBe(true);
+    expect(matcher.match(`value=='*]*'`, data)).toBe(true);
+  });
+
+  it('should match special symbold', () => {
+    expect.hasAssertions();
+
+    const data = {
+      value: 'some.text'
+    };
+
+    expect(matcher.match('value==*.*', data)).toBe(true);
+  });
 });

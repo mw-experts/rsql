@@ -147,7 +147,12 @@ export class RsqlMatcher {
   }
 
   private compareWithWildcard(patternWithWildcard: string, data: string): boolean {
-    const pattern = patternWithWildcard.replace(/\*/g, '.*');
+    // Escape string for use in Javascript regex
+    let pattern = patternWithWildcard.replace(/[.+?^${}()|\[\]\\]/g, '\\$&');
+
+    // Replace wildcard with RegExp
+    pattern = pattern.replace(/\*/g, '.*');
+
     const regexp = new RegExp(`^${pattern}$`);
 
     return regexp.test(data);

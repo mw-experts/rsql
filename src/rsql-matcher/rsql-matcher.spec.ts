@@ -156,7 +156,7 @@ describe('RsqlMatcher', () => {
     expect(matcher.match(`value=='*]*'`, data)).toBe(true);
   });
 
-  it('should match special symbold', () => {
+  it('should match dot symbol', () => {
     expect.hasAssertions();
 
     const data = {
@@ -164,5 +164,25 @@ describe('RsqlMatcher', () => {
     };
 
     expect(matcher.match('value==*.*', data)).toBe(true);
+  });
+
+  it('should match equal symbold', () => {
+    expect.hasAssertions();
+
+    const dataTrue = {
+      value: '='
+    };
+
+    const dataFalse = {
+      value: 'ololo'
+    };
+
+    expect(matcher.match('value=="="', dataTrue)).toBe(true);
+    expect(matcher.match("value=='='", dataTrue)).toBe(true);
+    expect(matcher.match(`value===`, dataTrue)).toBe(true);
+
+    expect(matcher.match('value=="="', dataFalse)).toBe(false);
+    expect(matcher.match("value=='='", dataFalse)).toBe(false);
+    expect(matcher.match(`value===`, dataFalse)).toBe(false);
   });
 });
